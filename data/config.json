@@ -1,0 +1,1 @@
+{"default": {"hostname": "http://localhost", "endpoint": "hdkbkbcdbbdbhbdhbh", "method": "POST", "isLocalhost": true, "payload": "{\n\"name\": \"firsttest\"\n}", "payloadType": "application/json", "auth": "Bearer"}, "123": {"hostname": "http://localhost", "endpoint": "", "method": "GET", "isLocalhost": true, "payload": null, "payloadType": null, "auth": "Basic"}}
