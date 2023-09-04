@@ -1,28 +1,22 @@
 import streamlit as st
-import json
-
 from utils import helper
 
+op_lst = ["GET", "POST"]
+auth_lst = ["Basic", "Bearer"]
+menu_lst = ["Config", "Execution", "Results"]
 
-def add_config_details():
+
+def add_config_details(default_config_index, selected_menu):
     payload = None
     payload_type = None
-    op_lst = ["GET", "POST"]
-    auth_lst = ["Basic", "Bearer"]
-
-    st.set_page_config(page_title="PerfDevTool", page_icon=None)
     config_ids_list = helper.get_config_ids_lst()
 
-    query_params = st.experimental_get_query_params()
-    default = query_params["config_id"][0] if "config_id" in query_params else None
-    default_index = config_ids_list.index(default) if default else 0
-
     config_id = st.selectbox("Select Config:", config_ids_list,
-                             index=default_index, key="config_ids_list")
+                             index=default_config_index, key="config_ids_list")
 
     st.session_state.config_id_selected = config_id
 
-    st.experimental_set_query_params(config_id=config_id)
+    st.experimental_set_query_params(config_id=config_id, menu=selected_menu)
 
     config_details = helper.get_config_details(config_id)
     left, right = st.columns(2)
@@ -53,34 +47,5 @@ def add_config_details():
 
     new_config_id = left.text_input("Config ID:", placeholder="Enter unique Name to save config details")
 
-    if new_config_id:
-        save_config(new_config_id, host, api_endpoint, operation, is_local_host, payload, payload_type, auth_type)
-
     if new_config_id and new_config_id in config_ids_list:
         st.error(f"Config ID {new_config_id} already exists please provide new id")
-
-
-def save_config(config_id, host, api_endpoint, operation, is_local_host, payload, payload_type, auth_type):
-
-    config_dct = {
-        config_id: {
-            "hostname": host,
-            "endpoint": api_endpoint,
-            "method": operation,
-            "isLocalhost": is_local_host,
-            "payload": payload,
-            "payloadType": payload_type,
-            "auth": auth_type
-        }
-    }
-    config_file = open('.\\data\\config.json')
-
-    config_json = json.load(config_file)
-    config_json.update(config_dct)
-    print('+++++++++++++++++++', config_json, config_dct)
-
-    with open(".\\data\\config.json", "w") as jsonfile:
-        json.dump(config_json, jsonfile)
-
-
-add_config_details()

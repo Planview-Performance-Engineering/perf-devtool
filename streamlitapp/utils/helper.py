@@ -19,6 +19,28 @@ def get_config_details(config_id):
     return config_details
 
 
+def save_config(config_id, host, api_endpoint, operation, is_local_host, payload, payload_type, auth_type):
+
+    config_dct = {
+        config_id: {
+            "hostname": host,
+            "endpoint": api_endpoint,
+            "method": operation,
+            "isLocalhost": is_local_host,
+            "payload": payload,
+            "payloadType": payload_type,
+            "auth": auth_type
+        }
+    }
+    config_file = open('.\\data\\config.json')
+
+    config_json = json.load(config_file)
+    config_json.update(config_dct)
+
+    with open(".\\data\\config.json", "w") as jsonfile:
+        json.dump(config_json, jsonfile)
+
+
 def validate_json(json_data):
     try:
         json.loads(json_data)
