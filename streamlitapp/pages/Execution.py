@@ -5,7 +5,7 @@ import json
 
 
 def read_config():
-    config_file = open('..\\data\\config.json')
+    config_file = open('.\\data\\config.json')
     config_json = json.load(config_file)
     return config_json
 
@@ -23,19 +23,11 @@ def get_config_details(config_id):
 
 
 def add_config_details():
-    payload = None
-    payload_type = None
-    op_lst = ["GET", "POST"]
-    auth_lst = ["Basic", "Bearer"]
-
     st.set_page_config(page_title="PerfDevTool", page_icon=None)
     config_ids_list = get_config_ids_lst()
     session_state_config_id = st.session_state.config_id_selected if 'config_id_selected' in st.session_state else None
     selected_config_id = config_ids_list.index(session_state_config_id) if session_state_config_id else None
-    # print('------------', selected_config_id, config_ids_list)
     default_value_index = selected_config_id if selected_config_id else 0
-
-    print (default_value_index, selected_config_id, '============')
 
     config_id = st.selectbox("Select Config:", config_ids_list, index=default_value_index,
                              key="config_iconfig_ids_listds_list")

@@ -53,6 +53,9 @@ def add_config_details():
 
     new_config_id = left.text_input("Config ID:", placeholder="Enter unique Name to save config details")
 
+    if new_config_id:
+        save_config(new_config_id, host, api_endpoint, operation, is_local_host, payload, payload_type, auth_type)
+
     if new_config_id and new_config_id in config_ids_list:
         st.error(f"Config ID {new_config_id} already exists please provide new id")
 
@@ -73,10 +76,11 @@ def save_config(config_id, host, api_endpoint, operation, is_local_host, payload
     config_file = open('.\\data\\config.json')
 
     config_json = json.load(config_file)
-
     config_json.update(config_dct)
+    print('+++++++++++++++++++', config_json, config_dct)
 
     with open(".\\data\\config.json", "w") as jsonfile:
         json.dump(config_json, jsonfile)
+
 
 add_config_details()
