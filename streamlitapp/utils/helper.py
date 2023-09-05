@@ -19,7 +19,8 @@ def get_config_details(config_id):
     return config_details
 
 
-def save_config(config_id, host, api_endpoint, operation, is_local_host, payload, payload_type, auth_type):
+def save_config(config_id, host, api_endpoint, operation, is_local_host, payload, payload_type,
+                auth_type, dsn, user_name, password, token):
 
     config_dct = {
         config_id: {
@@ -29,7 +30,11 @@ def save_config(config_id, host, api_endpoint, operation, is_local_host, payload
             "isLocalhost": is_local_host,
             "payload": payload,
             "payloadType": payload_type,
-            "auth": auth_type
+            "auth": auth_type,
+            "dsn": dsn,
+            "username": user_name,
+            "password": password,
+            "token": token
         }
     }
     config_file = open('.\\data\\config.json')

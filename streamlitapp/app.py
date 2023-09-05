@@ -32,7 +32,7 @@ class MyApp:
         default_menu = query_params["menu"][0] if "menu" in query_params else None
         default_menu_index = menu_lst.index(default_menu) if default_menu else 0
 
-        selected_menu = option_menu(None, menu_lst, icons=['gear-fill', 'play-circle', "check2-circle"],
+        selected_menu = option_menu(None, menu_lst, icons=['gear-fill', 'play-circle', "check2-circle"], key='mymenu',
                                     menu_icon="cast", default_index=default_menu_index, orientation="horizontal",
                                     styles={
                                         "container": {"padding": "0!important", "background-color": "#fafafa"},
