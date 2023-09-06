@@ -53,10 +53,12 @@ def add_config_details(default_config_index, selected_menu):
                                     value=config_id)
 
     left_column, right_column = st.columns(2)
+    duration =left.text_input("Duration:", placeholder="Enter duration in minutes", value=config_details["duration"])
+    vus = left.text_input("No of vus:", placeholder="Enter duration in minutes", value=config_details["vus"])
 
     def save_config():
         helper.save_config(new_config_id, host, api_endpoint, operation,  is_local_host,
-                           payload, payload_type, auth_type, dsn, user_name, password, token)
+                           payload, payload_type, auth_type, dsn, user_name, password, token, duration, vus)
 
     if left_column.button('Save Config:'):
         if new_config_id in config_ids_list:

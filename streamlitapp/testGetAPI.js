@@ -2,10 +2,16 @@ import http from 'k6/http';
 
 import * as commonFunctions from './commonFunctions.js'
 
-const HOST = __ENV['host']
-const REQUEST_URL = __ENV['endpoint']
+let testData = open("./data/config.json")
+testData = JSON.parse(testData)
+
+const CONFIG_ID = __ENV['configID']
+
+const envData = testData[CONFIG_ID]
+const HOST = envData['hostname']
+const REQUEST_URL = envData['endpoint']
 const REQUEST_TIME_OUT = __ENV['timeout'] || '3m'
-const TOKEN = __ENV['token']
+const TOKEN = envData['token']
 
 export default function main(){
     let headers = {
@@ -26,6 +32,6 @@ export default function main(){
 export function handleSummary(data) {
   let logPath = `./resultLogs`
 
-  let summaryDetailsDct = commonFunctions.constructSummaryObj(data, logPath, REQUEST_TIME_OUT)
+  let summaryDetailsDct = commonFunctions.constructSummaryObj(CONFIG_ID, data, envData, logPath, REQUEST_TIME_OUT)
   return summaryDetailsDct
 }

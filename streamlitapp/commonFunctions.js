@@ -55,7 +55,7 @@ export function getAccessToken(host, clientID, clientSecret){
 
 }
 
-export function constructSummaryObj(data, logPath, requestTimeOut) {
+export function constructSummaryObj(CONFIG_ID, data, testData, logPath, requestTimeOut) {
 
     let endDateObj = new Date()
     let strEndTime = endDateObj.toISOString()
@@ -68,27 +68,20 @@ export function constructSummaryObj(data, logPath, requestTimeOut) {
     strStartTime = startDateObj.toISOString()
 
     let testDurationMin = Math.round(testDuration / 60000)
-    const END_POINT = __ENV['endpoint']
-    const ENV_NAME = __ENV['host']
-    const RUN_ID = __ENV['runid']
-
-    const RANDOM_NUM = Math.floor((Math.random() * 10000) + 1);
 
     let testSummary = {
-        "Environment": ENV_NAME,
         "StartTime": strStartTime,
         "EndTime": strEndTime,
         "TestDurationMin": testDurationMin,
         "VirtualUsers": numVirtualUsers,
-        "Endpoint": END_POINT,
-        "RunID": RUN_ID,
+        "testData": testData,
         "RequestTimeOut": requestTimeOut,
         "TotalIterations": totalIterations
     }
 
     data['TestSummary'] = testSummary
 
-    const FILE_PATH = (RUN_ID) ? `${RUN_ID}/testSummary` : `${numVirtualUsers}VUS_${testDurationMin}m_${RANDOM_NUM}`
+    const FILE_PATH = `${CONFIG_ID}_${strStartTime}`.replace(':', "_").replace('.', '_')
 
     let jsonPath = `${logPath}/${FILE_PATH}.json`
 

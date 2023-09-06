@@ -32,7 +32,7 @@ export default function main(){
     }
     );
 
-    group(`Request Endpoin ${REQUEST_URL}:`,
+    group(`Request Endpoint:`,
     function () {
         const params = {
             timeout : REQUEST_TIME_OUT
@@ -49,6 +49,6 @@ export default function main(){
 export function handleSummary(data) {
   let logPath = `./resultLogs`
 
-  let summaryDetailsDct = commonFunctions.constructSummaryObj(data, logPath, REQUEST_TIME_OUT)
+  let summaryDetailsDct = commonFunctions.constructSummaryObj(CONFIG_ID, data, envData, logPath, REQUEST_TIME_OUT)
   return summaryDetailsDct
 }
