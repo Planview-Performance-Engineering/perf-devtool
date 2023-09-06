@@ -43,10 +43,10 @@ class MyApp:
                                     )
 
         if selected_menu == "Config":
-            configuration.add_config_details(default_config_index, selected_menu)
+            configuration.add_config_details(config_ids_list, default_config_index, selected_menu)
 
         if selected_menu == "Execution":
-            execution.get_run_params(default_config_index, selected_menu)
+            execution.get_run_params(config_ids_list, default_config_index, selected_menu)
 
         if selected_menu == "Results":
             results.get_result_data(default_config_index, selected_menu, config_ids_list)

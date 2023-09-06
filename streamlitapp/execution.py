@@ -6,9 +6,7 @@ import re
 from utils import helper
 
 
-def get_run_params(default_config_index, selected_menu):
-    config_ids_list = helper.get_config_ids_lst()
-
+def get_run_params(config_ids_list, default_config_index, selected_menu):
     session_state_config_id = st.session_state.config_id_selected if 'config_id_selected' in st.session_state else None
     selected_config_id = config_ids_list.index(session_state_config_id) if session_state_config_id else None
 
@@ -35,6 +33,7 @@ def get_run_params(default_config_index, selected_menu):
         with st.spinner("Running Test...."):
             import time
             time.sleep((int(duration)*60))
+            st.text("Completed........")
 
 
         # for line in process.stdout:
@@ -57,7 +56,7 @@ def run_subprocess(config_id, duration, vus):
     elif auth_type == "Basic" and method == "GET":
         command = f"k6 run .\\testGetRequest.js -e configID={config_id} --duration={duration}m --vus={vus}"
     elif auth_type == "Basic" and method == "GET":
-        command = f"k6 run .\\testGetRequest.js -e configID={config_id} --duration={duration}m --vus={vus}"
+        command = f"k6 run .\\testPostRequest.js -e configID={config_id} --duration={duration}m --vus={vus}"
 
     process = subprocess.Popen(
         command,
