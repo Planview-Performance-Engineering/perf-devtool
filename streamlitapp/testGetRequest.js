@@ -1,18 +1,26 @@
 import http from 'k6/http';
+import { group, sleep } from "k6";
 
 import * as commonFunctions from './commonFunctions.js'
 
-const HOST = __ENV['host']
-const REQUEST_URL = __ENV['endpoint']
+const CONFIG_ID = __ENV['configID']
+
+let testData = open("./data/config.json")
+testData = JSON.parse(testData)
+
+const envData = testData[CONFIG_ID]
+const HOST = envData['hostname']
+const REQUEST_URL = envData['endpoint']
 const REQUEST_TIME_OUT = __ENV['timeout'] || '3m'
-const DSN = __ENV['dsn']
-const USERNAME = __ENV['username']
-const PASSWORD = __ENV['password']
+const DSN = envData['dsn']
+const USERNAME = envData['username']
+const PASSWORD = envData['password']
 
 let adminLoginCert;
 
 
 export default function main(){
+    let vuJar = http.cookieJar();
 
     group(`Login to ${HOST}`,
     function () {

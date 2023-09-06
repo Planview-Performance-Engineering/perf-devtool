@@ -6,9 +6,6 @@ auth_lst = ["Basic", "Bearer"]
 menu_lst = ["Config", "Execution", "Results"]
 
 
-import execution
-
-
 def add_config_details(default_config_index, selected_menu):
     payload = None
     payload_type = None
@@ -50,7 +47,7 @@ def add_config_details(default_config_index, selected_menu):
         user_name = right.text_input("User Name:", placeholder="Enter User Name", value=config_details["username"])
         password = right.text_input("Password:", placeholder="Enter Password", value=config_details["password"])
     elif auth_type == "Bearer":
-        token = right.text_input("Token:", placeholder="Bearer <token>", value=config_details["token"])
+        token = right.text_input("Token:", placeholder="Enter token", value=config_details["token"])
 
     new_config_id = left.text_input("Config ID:", placeholder="Enter unique Name to save config details",
                                     value=config_id)

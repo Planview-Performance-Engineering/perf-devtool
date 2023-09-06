@@ -17,7 +17,7 @@ export default function main(){
         timeout : REQUEST_TIME_OUT
     }
 
-    const response = http.get(`${HOST}/planview/${REQUEST_URL}`, params)
+    const response = http.get(`${HOST}/polaris/${REQUEST_URL}`, params)
     
     commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'GETAPI', REQUEST_TIME_OUT)
     

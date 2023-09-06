@@ -1,4 +1,5 @@
 import http from 'k6/http';
+import { fail } from "k6";
 import { Rate, Trend } from "k6/metrics";
 import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.1/index.js';
 
@@ -12,7 +13,7 @@ let requestTimeoutRate = new Rate(`LoginRequestTimeoutRate`)
 let loginRequestTimeoutRate = new Trend(`LoginResponseTime`, true)
 
 export function login(host, dsn, username, password, requestTimeout = '1m') {
-    const LOGIN_URL = `${host}/login/body.aspx`
+    const LOGIN_URL = `${host}/planview/login/body.aspx`
 
     const payload = {
         DSN: dsn,
@@ -21,7 +22,7 @@ export function login(host, dsn, username, password, requestTimeout = '1m') {
     }
     const headers = {
         "content-type": "application/x-www-form-urlencoded",
-        "referer": `${host}/login/body.aspx`
+        "referer": `${host}/planview/login/body.aspx`
     }
 
     const params = {
@@ -29,7 +30,9 @@ export function login(host, dsn, username, password, requestTimeout = '1m') {
         timeout: requestTimeout
     }
 
-    const response = request.post(LOGIN_URL, payload, params);
+    console.log('=============',JSON.stringify(payload))
+
+    const response = http.post(LOGIN_URL, payload, params);
 
     const ADMIN_LOGIN_CERT = verifyLogin(response, username, requestTimeout)
     return ADMIN_LOGIN_CERT
@@ -166,4 +169,17 @@ export function verifyResponseStatus(response, endPoint, apiAction, requestTimeo
             requestTimeoutRate.add(false, { action: apiAction, timeout: requestTimeout, endPoint: endPoint })
             fail(`get ${endPoint} attributes API failed with, ${response.body}`)
         }
+}
+
+export function getVUandITER() {
+    let vu, iter
+    if (typeof __ITER === 'undefined') {
+        iter = 'setup/teardown'
+        vu = 'setup/teardown'
+    }
+    else {
+        iter = __ITER
+        vu = __VU
+    }
+    return { vu, iter }
 }
