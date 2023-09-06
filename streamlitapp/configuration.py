@@ -6,14 +6,13 @@ auth_lst = ["Basic", "Bearer"]
 menu_lst = ["Config", "Execution", "Results"]
 
 
-def add_config_details(default_config_index, selected_menu):
+def add_config_details(config_ids_list, default_config_index, selected_menu):
     payload = None
     payload_type = None
     dsn = ""
     user_name = ""
     password = ""
     token = ""
-    config_ids_list = helper.get_config_ids_lst()
 
     config_id = st.selectbox("Select Config:", config_ids_list,
                              index=default_config_index, key="config_ids_list")
@@ -53,7 +52,7 @@ def add_config_details(default_config_index, selected_menu):
                                     value=config_id)
 
     left_column, right_column = st.columns(2)
-    duration =left.text_input("Duration:", placeholder="Enter duration in minutes", value=config_details["duration"])
+    duration = left.text_input("Duration:", placeholder="Enter duration in minutes", value=config_details["duration"])
     vus = left.text_input("No of vus:", placeholder="Enter duration in minutes", value=config_details["vus"])
 
     def save_config():
