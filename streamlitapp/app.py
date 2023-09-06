@@ -49,7 +49,7 @@ class MyApp:
             execution.get_run_params(config_ids_list, default_config_index, selected_menu)
 
         if selected_menu == "Results":
-            results.get_result_data(default_config_index, selected_menu, config_ids_list)
+            results.get_result_data(config_ids_list, default_config_index, selected_menu, )
 
 
 MyApp().run()
