@@ -4,7 +4,7 @@ import streamlit as st
 from utils import helper
 
 
-def get_result_data(default_config_index, selected_menu, config_ids_list):
+def get_result_data(config_ids_list, default_config_index, selected_menu):
 
     #config_ids_list = helper.get_config_ids_lst()
 
@@ -22,3 +22,5 @@ def get_result_data(default_config_index, selected_menu, config_ids_list):
                              key="config_iconfig_ids_listds_list")
 
     st.experimental_set_query_params(config_id=config_id, menu=selected_menu)
+
+    config_details = helper.get_config_details(config_id)
