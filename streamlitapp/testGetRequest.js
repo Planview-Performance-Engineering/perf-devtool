@@ -39,7 +39,6 @@ export default function main(){
         }
     
         const response = http.get(`${HOST}/planview/${REQUEST_URL}`, params)
-    
         commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'GETREQUEST', REQUEST_TIME_OUT) 
     }
     );

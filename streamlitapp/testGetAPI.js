@@ -1,4 +1,5 @@
 import http from 'k6/http';
+import { group } from "k6";
 
 import * as commonFunctions from './commonFunctions.js'
 
@@ -23,9 +24,12 @@ export default function main(){
         timeout : REQUEST_TIME_OUT
     }
 
-    const response = http.get(`${HOST}/polaris/${REQUEST_URL}`, params)
-    
-    commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'GETAPI', REQUEST_TIME_OUT)
+    group(`Request Endpoint:`,
+    function () {
+        const response = http.get(`${HOST}/polaris/${REQUEST_URL}`, params)
+        commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'GETAPI', REQUEST_TIME_OUT)
+    }
+    );
     
 }
 

@@ -1,4 +1,5 @@
 import http from 'k6/http';
+import { group } from "k6";
 
 import * as commonFunctions from './commonFunctions.js'
 
@@ -27,15 +28,18 @@ export default function main(){
         timeout : REQUEST_TIME_OUT
     }
 
-    const response = http.post(`${HOST}/planview/${REQUEST_URL}`, REQUEST_PAYLOAD, params)
-    
-    commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'POSTAPI', REQUEST_TIME_OUT)
+    group(`Request Endpoint:`,
+    function () {
+        const response = http.post(`${HOST}/polaris/${REQUEST_URL}`, REQUEST_PAYLOAD, params)
+        commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'POSTAPI', REQUEST_TIME_OUT)
+    }
+    );
     
 }
 
 export function handleSummary(data) {
   let logPath = `./resultLogs`
 
-  let summaryDetailsDct = commonFunctions.constructSummaryObj(data, logPath, REQUEST_TIME_OUT)
+  let summaryDetailsDct = commonFunctions.constructSummaryObj(CONFIG_ID, data, envData, logPath, REQUEST_TIME_OUT)
   return summaryDetailsDct
 }

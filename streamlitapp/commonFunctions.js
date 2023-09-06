@@ -4,9 +4,9 @@ import { Rate, Trend } from "k6/metrics";
 import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.1/index.js';
 
 
-let passRate = new Rate(`APIPassRate`)
-let loginResponseTime = new Rate(`APIRequestTimeoutRate`)
-let responseTime = new Trend(`APIResponseTime`, true)
+let passRate = new Rate(`EndpointPassRate`)
+let loginResponseTime = new Rate(`EndpointRequestTimeoutRate`)
+let responseTime = new Trend(`EndpointResponseTime`, true)
 
 let loginPassRate = new Rate(`LoginPassRate`)
 let requestTimeoutRate = new Rate(`LoginRequestTimeoutRate`)
@@ -29,8 +29,6 @@ export function login(host, dsn, username, password, requestTimeout = '1m') {
         headers: headers,
         timeout: requestTimeout
     }
-
-    console.log('=============',JSON.stringify(payload))
 
     const response = http.post(LOGIN_URL, payload, params);
 
@@ -81,7 +79,10 @@ export function constructSummaryObj(CONFIG_ID, data, testData, logPath, requestT
 
     data['TestSummary'] = testSummary
 
-    const FILE_PATH = `${CONFIG_ID}_${strStartTime}`.replace(':', "_").replace('.', '_')
+    let strTime =strStartTime.replace(':', '-')
+    strTime = strTime.replace(':', '-')
+
+    let FILE_PATH = `${CONFIG_ID}_${strTime}`.toString()
 
     let jsonPath = `${logPath}/${FILE_PATH}.json`
 
@@ -89,7 +90,7 @@ export function constructSummaryObj(CONFIG_ID, data, testData, logPath, requestT
 
     resultSummary[jsonPath] = JSON.stringify(data)
 
-    console.log(`****************** TEST SUMMARY REPORT ${FILE_PATH} IS GENERATED ******************`)
+    console.log(`****************** TEST SUMMARY REPORT ${jsonPath} IS GENERATED ******************`)
     return resultSummary
 }
 

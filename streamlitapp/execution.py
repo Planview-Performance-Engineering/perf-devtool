@@ -55,7 +55,7 @@ def run_subprocess(config_id, duration, vus):
         command = f'k6 run .\\testPostAPI.js  -e configID={config_id} --duration={duration}m --vus={vus}'
     elif auth_type == "Basic" and method == "GET":
         command = f"k6 run .\\testGetRequest.js -e configID={config_id} --duration={duration}m --vus={vus}"
-    elif auth_type == "Basic" and method == "GET":
+    elif auth_type == "Basic" and method == "POST":
         command = f"k6 run .\\testPostRequest.js -e configID={config_id} --duration={duration}m --vus={vus}"
 
     process = subprocess.Popen(
