@@ -20,6 +20,7 @@ class MyApp:
             "function": func
         })
 
+
     def run(self):
 
         query_params = st.experimental_get_query_params()
@@ -31,6 +32,7 @@ class MyApp:
         default_menu = query_params["menu"][0] if "menu" in query_params else None
         default_menu_index = menu_lst.index(default_menu) if default_menu else 0
 
+
         selected_menu = option_menu(None, menu_lst, icons=['gear-fill', 'play-circle', "check2-circle"], key='mymenu',
                                     menu_icon="cast", default_index=default_menu_index, orientation="horizontal",
                                     styles={
@@ -41,6 +43,7 @@ class MyApp:
                                         "nav-link-selected": {"background-color": "#8fbc8f"},
                                     }
                                     )
+        selected_menu
 
         if selected_menu == "Config":
             configuration.add_config_details(config_ids_list, default_config_index, selected_menu)
@@ -50,6 +53,8 @@ class MyApp:
 
         if selected_menu == "Results":
             results.get_result_data(config_ids_list, default_config_index, selected_menu)
+
+
 
 
 MyApp().run()

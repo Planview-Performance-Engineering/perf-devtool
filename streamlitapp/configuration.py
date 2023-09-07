@@ -13,6 +13,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
     user_name = ""
     password = ""
     token = ""
+    #config_ids_list = helper.get_config_ids_lst()
 
     config_id = st.selectbox("Select Config:", config_ids_list,
                              index=default_config_index, key="config_ids_list")

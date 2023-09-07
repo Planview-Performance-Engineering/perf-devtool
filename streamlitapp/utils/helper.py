@@ -37,10 +37,10 @@ def get_result_data(config_id,execution_id):
 
         result_file = open('./resultlogs/'+config_id+'/'+execution_id[i])
         result_json = json.load(result_file)
-        metric_data[execution_id[i]] = {"p95 response time in ms" : result_json["metrics"]["EndpointResponseTime"]["values"]["p(95)"]}
-        metric_data[execution_id[i]] ["Average response time in ms"] = result_json["metrics"]["EndpointResponseTime"]["values"]["avg"]
-        metric_data[execution_id[i]] ["Timeout Rate in Percentage"] = result_json["metrics"]["EndpointRequestTimeoutRate"]["values"]["rate"]*100
-        metric_data[execution_id[i]] ["Success Rate in Percentage"] = result_json["metrics"]["EndpointPassRate"]["values"]["rate"]*100
+        metric_data[execution_id[i]] = {"p95 response time in ms" : result_json["metrics"]["RequestEndpointResponseTime"]["values"]["p(95)"]}
+        metric_data[execution_id[i]] ["Average response time in ms"] = result_json["metrics"]["RequestEndpointResponseTime"]["values"]["avg"]
+        metric_data[execution_id[i]] ["Timeout Rate in Percentage"] = result_json["metrics"]["RequestEndpointRequestTimeoutRate"]["values"]["rate"]*100
+        metric_data[execution_id[i]] ["Success Rate in Percentage"] = result_json["metrics"]["RequestEndpointPassRate"]["values"]["rate"]*100
         metric_data[execution_id[i]] ["Duration in min"] = result_json['TestSummary']['testData']['duration']
         metric_data[execution_id[i]] ["Virtual Users"] = result_json["TestSummary"]["testData"]["vus"]
     
