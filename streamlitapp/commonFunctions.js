@@ -4,9 +4,9 @@ import { Rate, Trend } from "k6/metrics";
 import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.1/index.js';
 
 
-let passRate = new Rate(`EndpointPassRate`)
-let loginResponseTime = new Rate(`EndpointRequestTimeoutRate`)
-let responseTime = new Trend(`EndpointResponseTime`, true)
+let passRate = new Rate(`RequestEndpointPassRate`)
+let loginResponseTime = new Rate(`RequestEndpointRequestTimeoutRate`)
+let responseTime = new Trend(`RequestEndpointResponseTime`, true)
 
 let loginPassRate = new Rate(`LoginPassRate`)
 let requestTimeoutRate = new Rate(`LoginRequestTimeoutRate`)
@@ -82,9 +82,9 @@ export function constructSummaryObj(CONFIG_ID, data, testData, logPath, requestT
     let strTime =strStartTime.replace(':', '-')
     strTime = strTime.replace(':', '-')
 
-    let FILE_PATH = `${CONFIG_ID}_${strTime}`.toString()
+    let FILE_PATH = strTime.toString()
 
-    let jsonPath = `${logPath}/${FILE_PATH}.json`
+    let jsonPath = `${logPath}/${CONFIG_ID}/${FILE_PATH}.json`
 
     let resultSummary = { 'stdout': textSummary(data, { indent: ' ', enableColors: true }) }
 

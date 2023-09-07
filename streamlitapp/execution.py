@@ -1,8 +1,7 @@
-import json
-
 import streamlit as st
 import subprocess
-import re
+import os
+
 from utils import helper
 
 
@@ -29,16 +28,26 @@ def get_run_params(config_ids_list, default_config_index, selected_menu):
     submit = st.button("Run")
 
     if submit:
+        st.text("Running Test...")
         process = run_subprocess(config_id, duration, no_vus)
-        with st.spinner("Running Test...."):
-            import time
-            time.sleep((int(duration)*60))
-            st.text("Completed........")
+        status, results = verify_results(process)
+        if status:
+            st.success(f"Test Completed With Below Results: \n {results}")
+        else:
+            st.error(f"Test Failed with \n {results}")
 
 
-        # for line in process.stdout:
-        #     st.write(line)
-        #
+def verify_results(process):
+    results = ''
+    status = True
+    for line in process.stdout:
+        if 'error' in line:
+            status = False
+            results += '\n' + line + '\n'
+            process.kill()
+        elif 'RequestEndpoint' in line:
+            results += '\n' + line + '\n'
+    return status, results
 
 
 def run_subprocess(config_id, duration, vus):
@@ -46,7 +55,8 @@ def run_subprocess(config_id, duration, vus):
     method = config_details['method']
     auth_type = config_details['auth']
 
-    print('===============', config_details)
+    if not os.path.isdir(f"./resultLogs/{config_id}"):
+        os.mkdir(f"./resultLogs/{config_id}")
 
     command = None
     if auth_type == "Bearer" and method == "GET":
@@ -62,19 +72,10 @@ def run_subprocess(config_id, duration, vus):
         command,
         shell=True,
         stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT
+        stderr=subprocess.STDOUT,
+        bufsize=1,
+        universal_newlines=True,
     )
 
-    # for line in process.stdout:
-    #     # Parse the output to determine progress
-    #     progress_match = re.search(r'Progress: (\d+)%', line)
-    #     st.text(line)
-    #     # if progress_match:
-    #     #     progress = int(progress_match.group(1))
-    #     #     st.progress(progress / 100)  # Update the progress bar
-    #     # else:
-    #     #     st.text(line)  # Display other output in the Streamlit interface
-    #
-    # process.wait()
     return process
 
