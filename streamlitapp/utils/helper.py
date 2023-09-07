@@ -22,24 +22,22 @@ def get_execution_list(config_id):
     files = os.listdir('.//resultLogs/'+ config_id)
     return files
 
-def get_result_data(config_id,execution_id_1, execution_id_2):
+def get_result_data(config_id,execution_id):
 
     metric_data = {}
 
-    result_file = open('./resultlogs/'+config_id+'/'+execution_id_1)
-    result_file = json.load(result_file)
+    for i in range(len(execution_id)):
 
-    metric_data["execution_id_1"]["p95 Response time"].add(result_file["metrics"]["EndpointResponseTime"]["values"]["p(95)"])
+        result_file = open('./resultlogs/'+config_id+'/'+execution_id[i])
+        result_json = json.load(result_file)
+        metric_data[execution_id[i]] = {"p95 response time in ms" : result_json["metrics"]["EndpointResponseTime"]["values"]["p(95)"]}
+        metric_data[execution_id[i]] ["Average response time in ms"] = result_json["metrics"]["EndpointResponseTime"]["values"]["avg"]
+        metric_data[execution_id[i]] ["Timeout Rate in Percent"] = result_json["metrics"]["EndpointRequestTimeoutRate"]["values"]["rate"]*100
+        metric_data[execution_id[i]] ["Success Rate in Percent"] = result_json["metrics"]["EndpointPassRate"]["values"]["rate"]*100
+        metric_data[execution_id[i]] ["Duration in min"] = result_json['TestSummary']['testData']['duration']
+        metric_data[execution_id[i]] ["Virtual Users"] = result_json["TestSummary"]["testData"]["vus"]
     
-    #metric1 = result_file["metrics"]["EndpointResponseTime"]["values"]["p(95)"]
-
-    print(metric_data)
-    
-    # metrics[EndpointResponseTime][p(95)], metrics[EndpointResponseTime][avg]
-    # metrics[EndpointRequestTimeoutRate][rate], metrics[EndpointPassRate][passes]
-    # metrics[iterations][count], metrics[vus][value],testsummary[testdata][duration],testsummary[testdata][vus]
-    #files = os.listdir('.//resultLogs/'+ config_id)
-    return 1
+    return metric_data
 
 
 def save_config(config_id, host, api_endpoint, operation, is_local_host, payload, payload_type,

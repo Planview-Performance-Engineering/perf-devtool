@@ -3,6 +3,7 @@ import json
 
 import streamlit as st
 from utils import helper
+execution_id = [None]*2
 
 
 def get_result_data(config_ids_list, default_config_index, selected_menu):
@@ -33,13 +34,41 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
 
     left, right = st.columns(2)
 
-    execution_id_1 = left.selectbox("Select Result 1", result_details, index = 0, key = "execution_id_1")
+    execution_id[0] = left.selectbox("Select Result 1", result_details, index = 0, key = "execution_id_1")
 
-    execution_id_2 = right.selectbox("Select Result 2", result_details, index = 0, key = "execution_id_2")
+    execution_id[1] = right.selectbox("Select Result 2", result_details, index = 0, key = "execution_id_2")
+
 
     if st.button("Get Results"):
-        helper.get_result_data(config_id, execution_id_1, execution_id_2)
+        metric_data = helper.get_result_data(config_id, execution_id)\
+        
+        for key,val in metric_data.items():
 
-    #left.metric("95th reponse time", "1s", delta=None, delta_color="normal", help=None, label_visibility="visible")
 
+            if key == execution_id[0]:
+
+                alignment = left
+
+            else:
+
+                alignment = right
+
+            alignment.write(key)
+
+            alignment.divider()
+
+            for key1,val1 in val.items():
+
+
+                alignment.metric(key1, val1, delta=None, delta_color="normal", help=None, label_visibility="visible")
+
+
+
+
+
+
+
+    #left.metric("95th reponse time", metric_data[execution_id[0]]["p95 response time"], delta=None, delta_color="normal", help=None, label_visibility="visible")
+
+    #left.metric("Average reponse time", metric_data[execution_id[0]]["Average response time"], delta=None, delta_color="normal", help=None, label_visibility="visible")
     #left.metric("response time", "1s", delta=None, delta_color="normal", help=None, label_visibility="visible")
