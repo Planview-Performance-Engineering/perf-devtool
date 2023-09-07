@@ -1,5 +1,5 @@
 import json
-
+import os
 
 def read_config():
     config_file = open('.\\data\\config.json')
@@ -17,6 +17,29 @@ def get_config_details(config_id):
     config_json = read_config()
     config_details = config_json[config_id]
     return config_details
+
+def get_execution_list(config_id):
+    files = os.listdir('.//resultLogs/'+ config_id)
+    return files
+
+def get_result_data(config_id,execution_id_1, execution_id_2):
+
+    metric_data = {}
+
+    result_file = open('./resultlogs/'+config_id+'/'+execution_id_1)
+    result_file = json.load(result_file)
+
+    metric_data["execution_id_1"]["p95 Response time"].add(result_file["metrics"]["EndpointResponseTime"]["values"]["p(95)"])
+    
+    #metric1 = result_file["metrics"]["EndpointResponseTime"]["values"]["p(95)"]
+
+    print(metric_data)
+    
+    # metrics[EndpointResponseTime][p(95)], metrics[EndpointResponseTime][avg]
+    # metrics[EndpointRequestTimeoutRate][rate], metrics[EndpointPassRate][passes]
+    # metrics[iterations][count], metrics[vus][value],testsummary[testdata][duration],testsummary[testdata][vus]
+    #files = os.listdir('.//resultLogs/'+ config_id)
+    return 1
 
 
 def save_config(config_id, host, api_endpoint, operation, is_local_host, payload, payload_type,
