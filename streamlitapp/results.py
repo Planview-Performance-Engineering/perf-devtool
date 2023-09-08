@@ -28,13 +28,14 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
 
     result_details = helper.get_execution_list(config_id)
 
+
     if result_details:
 
         execution_id = list()
 
-        st.subheader("Select results for comparison")
+        #st.subheader("Select results for comparison")
 
-        st.write("Number of executions :",len(result_details))
+        st.write("Number of test executions :",len(result_details))
 
         left, right = st.columns(2)
 
@@ -42,30 +43,22 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
 
         for val in range(1 if len(result_details)<2 else 2):
                 
-            execution_id.append(alignment.selectbox("Select results : "+str(val+1), result_details, index = 0, key = "execution_id_"+str(val)))
+            execution_id.append(alignment.selectbox("Select results : "+str(val+1), result_details, index = val, key = "execution_id_"+str(val)))
 
             alignment = right if alignment==left else left
 
 
-        if st.button("Get Results"):
+        metric_data = helper.get_result_data(config_id, execution_id)
 
-            metric_data = helper.get_result_data(config_id, execution_id)
-
-            alignment = left
+        alignment = left
         
-            for execid,metric in metric_data.items():
+        for execid,metric in metric_data.items():
 
-                alignment.divider()
-
-                alignment.write(execid)
-
-                alignment.divider()
-
-                for metric_name,metric_value in metric.items():
+            for metric_name,metric_value in metric.items():
 
                     alignment.metric(metric_name, metric_value, delta=None, delta_color="normal", help=None, label_visibility="visible")
 
-                alignment = right if alignment==left else left
+            alignment = right if alignment==left else left
 
     else:
 
