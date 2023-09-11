@@ -1,7 +1,10 @@
 import json
+import pandas as pd
+import altair as alt
 
 import streamlit as st
 from utils import helper
+
 
 
 
@@ -37,7 +40,7 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
 
         st.write("Number of test executions :",len(result_details))
 
-        left, right = st.columns(2)
+        left, right,last = st.columns([1,1,4])
 
         alignment = left
 
@@ -51,15 +54,55 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
         metric_data = helper.get_result_data(config_id, execution_id)
 
         alignment = left
+
         
         for execid,metric in metric_data.items():
+
+
 
             for metric_name,metric_value in metric.items():
 
                     alignment.metric(metric_name, metric_value, delta=None, delta_color="normal", help=None, label_visibility="visible")
 
+
             alignment = right if alignment==left else left
+
+        last.markdown("<h2 style='text-align: center;'>Graphical Comparison</h2>", unsafe_allow_html=True)
+
+
+        for (metric_label_1,metric_label_2) in zip (metric_data[execution_id[0]], metric_data[execution_id[1]]):
+
+
+            source = pd.DataFrame({
+
+                'Test Run': [execution_id[0],execution_id[1]],
+                metric_label_1 : [metric_data[execution_id[0]][metric_label_1],metric_data[execution_id[1]][metric_label_2]]
+
+            })
+
+            bar_chart = alt.Chart(source).mark_bar().encode(y='Test Run',x=metric_label_1,)
+
+            last.altair_chart(bar_chart, use_container_width=True)
+        
+        # source = pd.DataFrame({
+
+            
+
+        # })
+
+        # source = pd.DataFrame({
+        # # 'a': ['A', 'B'],
+        # # 'b': [28, 55]
+        # })
+
+        # bar_chart = alt.Chart(source).mark_bar().encode(y='a',x='b',)
+
+        # st.altair_chart(bar_chart, use_container_width=True)
+            
+
 
     else:
 
-        st.warning("No Execution exists for this config. Please execute test !!!")
+        st.warning("No Execution exists for selected config!!")
+
+    
