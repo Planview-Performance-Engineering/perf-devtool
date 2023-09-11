@@ -23,6 +23,11 @@ def get_execution_list(config_id):
     try:
 
         files = os.listdir('.//resultLogs/'+ config_id)
+        
+        for index,filename in enumerate(files):
+
+            files[index]= filename.replace('.json','')
+
         return files
 
     except:
@@ -35,14 +40,14 @@ def get_result_data(config_id,execution_id):
 
     for index in range(len(execution_id)):
 
-        result_file = open('./resultlogs/'+config_id+'/'+execution_id[index])
+        result_file = open('./resultlogs/'+config_id+'/'+execution_id[index]+'.json')
         result_json = json.load(result_file)
-        metric_data[execution_id[index]] = {"Percentile 95 response time in ms" : result_json["metrics"]["RequestEndpointResponseTime"]["values"]["p(95)"]}
-        metric_data[execution_id[index]] ["Average response time in ms"] = result_json["metrics"]["RequestEndpointResponseTime"]["values"]["avg"]
+        metric_data[execution_id[index]] = {"Percentile 95 response time in ms" : round(result_json["metrics"]["RequestEndpointResponseTime"]["values"]["p(95)"],2)}
+        metric_data[execution_id[index]] ["Average response time in ms"] = round (result_json["metrics"]["RequestEndpointResponseTime"]["values"]["avg"],2)
         metric_data[execution_id[index]] ["Timeout Rate in Percentage"] = result_json["metrics"]["RequestEndpointRequestTimeoutRate"]["values"]["rate"]*100
         metric_data[execution_id[index]] ["Success Rate in Percentage"] = result_json["metrics"]["RequestEndpointPassRate"]["values"]["rate"]*100
         metric_data[execution_id[index]] ["Duration in min"] = result_json['TestSummary']['testData']['duration']
-        metric_data[execution_id[index]] ["Virtual Users"] = result_json["TestSummary"]["testData"]["vus"]
+        metric_data[execution_id[index]] ["Concurrent Users"] = result_json["TestSummary"]["testData"]["vus"]
     
     return metric_data
 
