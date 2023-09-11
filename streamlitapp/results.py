@@ -58,8 +58,6 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
         
         for execid,metric in metric_data.items():
 
-
-
             for metric_name,metric_value in metric.items():
 
                     alignment.metric(metric_name, metric_value, delta=None, delta_color="normal", help=None, label_visibility="visible")
@@ -75,14 +73,16 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
 
             source = pd.DataFrame({
 
-                'Test Run': [execution_id[0],execution_id[1]],
+                'Test Runs': [execution_id[0],execution_id[1]],
                 metric_label_1 : [metric_data[execution_id[0]][metric_label_1],metric_data[execution_id[1]][metric_label_2]]
 
             })
 
-            bar_chart = alt.Chart(source).mark_bar().encode(y='Test Run',x=metric_label_1,)
+            bar_chart = alt.Chart(source).mark_bar().encode(y='Test Runs',x=metric_label_1,)
 
-            last.altair_chart(bar_chart, use_container_width=True)
+            #bar_chart = alt.Chart(source).mark_bar().encode(y=metric_label_1,x='Test Runs')
+
+            last.altair_chart(bar_chart, use_container_width=True, theme="streamlit")
         
         # source = pd.DataFrame({
 
