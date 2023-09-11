@@ -55,6 +55,8 @@ export function getAccessToken(host, clientID, clientSecret){
 
 export function constructSummaryObj(CONFIG_ID, data, testData, logPath, requestTimeOut) {
 
+    const RUN_NAME = __ENV['runName']
+
     let endDateObj = new Date()
     let strEndTime = endDateObj.toISOString()
     let testDuration = data['state']['testRunDurationMs']
@@ -82,7 +84,10 @@ export function constructSummaryObj(CONFIG_ID, data, testData, logPath, requestT
     let strTime =strStartTime.replace(':', '-')
     strTime = strTime.replace(':', '-')
 
-    let FILE_PATH = strTime.toString()
+    let STR_TIMESTAMP = strTime.toString()
+
+    let FILE_PATH = (RUN_NAME) ? `${RUN_NAME}_${STR_TIMESTAMP}` : `${STR_TIMESTAMP}`
+
 
     let jsonPath = `${logPath}/${CONFIG_ID}/${FILE_PATH}.json`
 

@@ -47,7 +47,7 @@ def get_result_data(config_id,execution_id):
     return metric_data
 
 
-def save_config(config_id, host, api_endpoint, operation, is_local_host, payload, payload_type,
+def save_config(config_id, host, api_endpoint, operation, is_local_host, payload, payload_type, payload_as_string,
                 auth_type, dsn, user_name, password, token, duration, vus):
 
     config_dct = {
@@ -58,6 +58,7 @@ def save_config(config_id, host, api_endpoint, operation, is_local_host, payload
             "isLocalhost": is_local_host,
             "payload": payload,
             "payloadType": payload_type,
+            "payloadAsString": payload_as_string,
             "auth": auth_type,
             "dsn": dsn,
             "username": user_name,

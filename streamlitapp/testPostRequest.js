@@ -18,6 +18,7 @@ const CONTENT_TYPE = envData['payloadType']
 const DSN = envData['dsn']
 const USERNAME = envData['username']
 const PASSWORD = envData['password']
+const PAYLOAD_AS_STRING = envData['payloadAsString']
 
 let adminLoginCert;
 
@@ -42,7 +43,8 @@ export default function main(){
             headers: {"content-type": CONTENT_TYPE},
             timeout : REQUEST_TIME_OUT
         }
-        const response = http.post(`${HOST}/planview/${REQUEST_URL}`, REQUEST_PAYLOAD, params)
+        const payload = JSON.stringify(REQUEST_PAYLOAD) ? PAYLOAD_AS_STRING : REQUEST_PAYLOAD
+        const response = http.post(`${HOST}/planview/${REQUEST_URL}`, payload, params)
         commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'POSTAPI', REQUEST_TIME_OUT)
     }
     );
