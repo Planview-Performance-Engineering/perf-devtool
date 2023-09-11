@@ -9,6 +9,7 @@ menu_lst = ["Config", "Execution", "Results"]
 def add_config_details(config_ids_list, default_config_index, selected_menu):
     payload = None
     payload_type = None
+    payload_as_sting = None
     dsn = ""
     user_name = ""
     password = ""
