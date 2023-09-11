@@ -65,22 +65,18 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
     elif auth_type == "Bearer":
         token = right.text_input("Token:", placeholder="Enter token", value=config_details["token"])
 
-<<<<<<< Updated upstream
+
     new_config_id = left.text_input("Config Name:", placeholder="Enter unique Name to save config details",
                                     value=config_id)
 
     left_column, right_column = st.columns(2)
     help_text = "Test runs multiple iterations in parallel with virtual users (VUs). " \
                 "In general terms, more virtual users means more simulated traffic"
-    duration = left.text_input("Duration:", placeholder="Enter duration in minutes", value=config_details["duration"])
-    vus = left.text_input("No of vus:", placeholder="Enter duration in minutes", value=config_details["vus"], help=help_text)
+    duration = left.text_input("Duration in minutes :", placeholder="Enter duration in minutes", value=config_details["duration"])
+    vus = left.text_input("No of Concurrent Users :", placeholder="Enter duration in minutes", value=config_details["vus"], help=help_text)
     new_config_id = left.text_input("Config Name :", placeholder="Enter unique Name to save config details",
                                     value=config_id)
 
-    left_column, right_column = st.columns(2)
-    duration = left.text_input("Duration in minutes :", placeholder="Enter duration in minutes", value=config_details["duration"])
-    vus = left.text_input("No of Concurrent Users:", placeholder="Enter duration in minutes", value=config_details["vus"])
->>>>>>> Stashed changes
 
     def save_config():
         helper.save_config(new_config_id, host, api_endpoint, operation,  is_local_host,
