@@ -1,6 +1,7 @@
 import json
 import os
 
+
 def read_config():
     config_file = open('.\\data\\config.json')
     config_json = json.load(config_file)
@@ -18,15 +19,14 @@ def get_config_details(config_id):
     config_details = config_json[config_id]
     return config_details
 
-def get_execution_list(config_id):
 
+def get_execution_list(config_id):
     try:
 
-        files = os.listdir('.//resultLogs/'+ config_id)
-        
-        for index,filename in enumerate(files):
+        files = os.listdir('.//resultLogs/' + config_id)
 
-            files[index]= filename.replace('.json','')
+        for index, filename in enumerate(files):
+            files[index] = filename.replace('.json', '')
 
         return files
 
@@ -34,27 +34,25 @@ def get_execution_list(config_id):
 
         return None
 
-def get_result_data(config_id,execution_id):
 
+def get_result_data(config_id, execution_id):
     metric_data = {}
 
-    for index in range(len(execution_id)):
-
-        result_file = open('./resultlogs/'+config_id+'/'+execution_id[index]+'.json')
+    for execution in execution_id:
+        result_file = open('./resultlogs/' + config_id + '/' + execution + '.json')
         result_json = json.load(result_file)
-        metric_data[execution_id[index]] = {"Percentile 95 response time in ms" : round(result_json["metrics"]["RequestEndpointResponseTime"]["values"]["p(95)"],2)}
-        metric_data[execution_id[index]] ["Average response time in ms"] = round (result_json["metrics"]["RequestEndpointResponseTime"]["values"]["avg"],2)
-        metric_data[execution_id[index]] ["Timeout Rate in Percentage"] = result_json["metrics"]["RequestEndpointRequestTimeoutRate"]["values"]["rate"]*100
-        metric_data[execution_id[index]] ["Success Rate in Percentage"] = result_json["metrics"]["RequestEndpointPassRate"]["values"]["rate"]*100
-        metric_data[execution_id[index]] ["Duration in min"] = result_json['TestSummary']['testData']['duration']
-        metric_data[execution_id[index]] ["Concurrent Users"] = result_json["TestSummary"]["testData"]["vus"]
-    
+        metric_data[execution] = {"95th percentile response time in ms": round(result_json["metrics"]["RequestEndpointResponseTime"]["values"]["p(95)"], 2)}
+        metric_data[execution]["Average response time in ms"] = round(result_json["metrics"]["RequestEndpointResponseTime"]["values"]["avg"], 2)
+        metric_data[execution]["Request timeout Rate in Percentage"] = result_json["metrics"]["RequestEndpointRequestTimeoutRate"]["values"]["rate"] * 100
+        metric_data[execution]["Pass Rate in Percentage"] = result_json["metrics"]["RequestEndpointPassRate"]["values"]["rate"] * 100
+        metric_data[execution]["Duration in min"] = result_json['TestSummary']['testData']['duration']
+        metric_data[execution]["Concurrent Users"] = result_json["TestSummary"]["testData"]["vus"]
+
     return metric_data
 
 
 def save_config(config_id, host, api_endpoint, operation, is_local_host, payload, payload_type, payload_as_string,
                 auth_type, dsn, user_name, password, token, duration, vus):
-
     config_dct = {
         config_id: {
             "hostname": host,
