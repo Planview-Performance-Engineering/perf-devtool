@@ -74,8 +74,8 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
                 "In general terms, more virtual users means more simulated traffic"
     duration = left.text_input("Duration in minutes :", placeholder="Enter duration in minutes", value=config_details["duration"])
     vus = left.text_input("No of Concurrent Users :", placeholder="Enter duration in minutes", value=config_details["vus"], help=help_text)
-    new_config_id = left.text_input("Config Name :", placeholder="Enter unique Name to save config details",
-                                    value=config_id)
+    # new_config_id = left.text_input("Config Name :", placeholder="Enter unique Name to save config details",
+    #                                 value=config_id)
 
 
     def save_config():
@@ -90,5 +90,3 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
 
     if right_column.button('Update Config:'):
         save_config()
-
-
