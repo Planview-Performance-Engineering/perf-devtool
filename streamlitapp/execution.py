@@ -2,6 +2,7 @@ import streamlit as st
 from streamlit_modal import Modal
 import subprocess
 import os
+import console_ctrl
 
 from utils import helper
 
@@ -53,9 +54,11 @@ def verify_results(process):
             results += '\n' + line + '\n'
             import signal
             print('====================', process.pid)
-            # process
-            # os.kill(process.pid, signal.SIGTERM)
-            # process.universal_newlines
+            console_ctrl.send_ctrl_c(process.pid)
+            # process.send_signal()
+            # # process
+            # # os.kill(process.pid, signal.SIGTERM)
+            # # process.universal_newlines
         elif 'RequestEndpoint' in line:
             results += '\n' + line + '\n'
     return status, results
@@ -85,7 +88,8 @@ def run_subprocess(config_id, duration, vus, run_name):
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         bufsize=1,
-        universal_newlines=True
+        universal_newlines=True,
+        creationflags=subprocess.CREATE_NEW_CONSOLE
     )
 
     return process

@@ -90,6 +90,19 @@ def save_config(config_id, host, api_endpoint, operation, is_local_host, payload
         json.dump(config_json, jsonfile)
 
 
+def update_config(config_id, config_details):
+    config_dct = {
+        config_id: config_details
+    }
+    config_file = open('.\\data\\config.json')
+
+    config_json = json.load(config_file)
+    config_json.update(config_dct)
+
+    with open(".\\data\\config.json", "w") as jsonfile:
+        json.dump(config_json, jsonfile)
+
+
 def validate_json(json_data):
     try:
         json.loads(json_data)
