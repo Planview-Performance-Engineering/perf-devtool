@@ -38,53 +38,49 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
 
         execution_id.append(left.selectbox("Select results : 1", result_details, index=0, key="execution_id_0"))
 
-        if no_of_results > 2:
+        if no_of_results > 1:
             execution_id.append(right.selectbox("Select results 2: ", result_details, index=1, key="execution_id_1"))
 
         metric_data = helper.get_result_data(config_id, execution_id)
-
+            
         alignment = left
 
-        for metric in metric_data.values():
+        for execid, metric in metric_data.items():
 
-            for metric_name, metric_value in metric.items():
-                alignment.metric(metric_name, metric_value, delta=None, delta_color="normal", help=None,
-                                 label_visibility="visible")
+            if len(metric) is not 0:
+
+                for metric_name, metric_value in metric.items():
+                    alignment.metric(metric_name, metric_value, delta=None, delta_color="normal", help=None,
+                                        label_visibility="visible")
+            else:
+
+                alignment.error("Test did not get initiated properly")
+
+                if alignment.button("Delete the run "+execid, type = "primary"):
+                    
+                    helper.delete_result(config_id, execid)
+
+                    st.experimental_rerun()
 
             alignment = right if alignment == left else left
 
-        last.markdown("<h2 style='text-align: center;'>Graphical Comparison</h2>", unsafe_allow_html=True)
+        if (len(metric_data.keys()) > 1):
 
-        for (metric_label_1, metric_label_2) in zip(metric_data[execution_id[0]], metric_data[execution_id[1]]):
-            source = pd.DataFrame({
+            last.markdown("<h2 style='text-align: center;'>Graphical Comparison</h2>", unsafe_allow_html=True)
+
+            for (metric_label_1, metric_label_2) in zip(metric_data[execution_id[0]], metric_data[execution_id[1]]):
+
+                source = pd.DataFrame({
 
                 'Test Runs': [execution_id[0], execution_id[1]],
                 metric_label_1: [metric_data[execution_id[0]][metric_label_1],
-                                 metric_data[execution_id[1]][metric_label_2]]
+                                        metric_data[execution_id[1]][metric_label_2]]
 
-            })
+                })
 
-            bar_chart = alt.Chart(source).mark_bar().encode(y='Test Runs', x=metric_label_1, )
+                bar_chart = alt.Chart(source).mark_bar().encode(y='Test Runs', x=metric_label_1, )
 
-            # bar_chart = alt.Chart(source).mark_bar().encode(y=metric_label_1,x='Test Runs')
-
-            last.altair_chart(bar_chart, use_container_width=True, theme="streamlit")
-
-        # source = pd.DataFrame({
-
-        # })
-
-        # source = pd.DataFrame({
-        # # 'a': ['A', 'B'],
-        # # 'b': [28, 55]
-        # })
-
-        # bar_chart = alt.Chart(source).mark_bar().encode(y='a',x='b',)
-
-        # st.altair_chart(bar_chart, use_container_width=True)
-
-
-
+                last.altair_chart(bar_chart, use_container_width=True, theme="streamlit")
     else:
 
         st.warning("No Execution exists for selected config!!")
