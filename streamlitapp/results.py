@@ -5,6 +5,8 @@ import altair as alt
 import streamlit as st
 from utils import helper
 
+colors = ['#7fc97f','#beaed4','#fdc086']
+
 
 def get_result_data(config_ids_list, default_config_index, selected_menu):
     session_state_config_id = st.session_state.config_id_selected if 'config_id_selected' in st.session_state else None
@@ -74,11 +76,16 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
 
                 'Test Runs': [execution_id[0], execution_id[1]],
                 metric_label_1: [metric_data[execution_id[0]][metric_label_1],
-                                        metric_data[execution_id[1]][metric_label_2]]
+                                        metric_data[execution_id[1]][metric_label_2]],
+                # 'Tests' : ['red','green']
 
                 })
 
-                bar_chart = alt.Chart(source).mark_bar().encode(y='Test Runs', x=metric_label_1, )
+                bar_chart = alt.Chart(source).mark_bar().encode(y='Test Runs', x=metric_label_1,color = 'Test Runs:N')
+
+                txt_chart = bar_chart.mark_text(align="left",baseline="middle",dx=3).encode(text =metric_label_1)
+
+                bar_chart = bar_chart + txt_chart
 
                 last.altair_chart(bar_chart, use_container_width=True, theme="streamlit")
     else:
