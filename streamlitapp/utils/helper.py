@@ -63,6 +63,24 @@ def get_result_data(config_id, execution_id):
     return metric_data
 
 
+def get_results(config_id, execution_id):
+    metric_data = {}
+
+    result_file = open('./resultlogs/' + config_id + '/' + execution_id + '.json')
+    try:
+        result_json = json.load(result_file)
+        metric_data["95th percentile response time in ms"] = round(result_json["metrics"]["RequestEndpointResponseTime"]["values"]["p(95)"], 2)
+        metric_data["Average response time in ms"] = round(result_json["metrics"]["RequestEndpointResponseTime"]["values"]["avg"], 2)
+        metric_data["Request timeout Rate in Percentage"] = result_json["metrics"]["RequestEndpointRequestTimeoutRate"]["values"]["rate"] * 100
+        metric_data["Pass Rate in Percentage"] = result_json["metrics"]["RequestEndpointPassRate"]["values"]["rate"] * 100
+        metric_data["Duration in min"] = result_json['TestSummary']['testData']['duration']
+        metric_data["Concurrent Users"] = result_json["TestSummary"]["testData"]["vus"]
+    except:
+        metric_data[execution_id] = {}
+
+    return metric_data
+
+
 def update_config(config_id, config_details):
     config_dct = {
         config_id: config_details
