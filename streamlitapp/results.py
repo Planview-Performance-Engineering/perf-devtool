@@ -1,6 +1,7 @@
 import json
 import pandas as pd
 import altair as alt
+import plotly.express as px
 
 import streamlit as st
 from utils import helper
@@ -63,8 +64,6 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
                 display_results(right, test_b_results, execution_2, config_id)
 
         if test_a_results and test_b_results:
-            import plotly.express as px
-
             df = pd.DataFrame(
                 [["Test A", test_a_results['95th percentile response time in ms'],
                   test_a_results['Average response time in ms']],
@@ -74,7 +73,7 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
             )
 
             fig = px.bar(df, x="Test Results", y=["95th percentile response time in ms", "Average response time in ms"],
-                         text_auto=True, barmode='group', height=400, labels={"variable": "Metrix"})
+                         text_auto=True, barmode='group', height=400, labels={"variable": "Metrics"})
 
             fig.update_layout(
                 yaxis=dict(
