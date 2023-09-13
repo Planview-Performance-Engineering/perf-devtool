@@ -32,33 +32,32 @@ def get_run_params(config_ids_list, default_config_index, selected_menu):
 
     submit = st.button("Run")
 
+
     if submit:
         model = Modal(key="results-key", title="Test Execution")
-        # model.text("Running Test...")
         with model.container():
             with st.spinner("Running Test...."):
+                placeholder = st.empty()
                 process = run_subprocess(config_id, duration, no_vus, run_name)
+                if placeholder.button("Stop", key=1):
+                    console_ctrl.send_ctrl_c(process.pid)
+                    model.close()
                 status, results = verify_results(process)
                 if status:
                     st.success(f"Test Completed With Below Results: \n {results}")
                 else:
                     st.error(f"Test Failed with \n {results}")
+                placeholder.button("Stop", disabled=True, key=2)
 
 
 def verify_results(process):
     results = ''
     status = True
     for line in process.stdout:
-        if 'error' in line:
+        if 'level=error' in line:
             status = False
             results += '\n' + line + '\n'
-            import signal
-            print('====================', process.pid)
             console_ctrl.send_ctrl_c(process.pid)
-            # process.send_signal()
-            # # process
-            # # os.kill(process.pid, signal.SIGTERM)
-            # # process.universal_newlines
         elif 'RequestEndpoint' in line:
             results += '\n' + line + '\n'
     return status, results
