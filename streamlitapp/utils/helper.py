@@ -1,9 +1,11 @@
 import json
 import os
 
+CONFIG__FILE_PATH = os.path.abspath((os.path.join(os.path.dirname(__file__), r'../data/config.json')))
+
 
 def read_config():
-    config_file = open('.\\data\\config.json')
+    config_file = open(CONFIG__FILE_PATH)
     config_json = json.load(config_file)
     return config_json
 
@@ -69,10 +71,14 @@ def get_results(config_id, execution_id):
     result_file = open('./resultlogs/' + config_id + '/' + execution_id + '.json')
     try:
         result_json = json.load(result_file)
-        metric_data["95th percentile response time in ms"] = round(result_json["metrics"]["RequestEndpointResponseTime"]["values"]["p(95)"], 2)
-        metric_data["Average response time in ms"] = round(result_json["metrics"]["RequestEndpointResponseTime"]["values"]["avg"], 2)
-        metric_data["Request timeout Rate in Percentage"] = result_json["metrics"]["RequestEndpointRequestTimeoutRate"]["values"]["rate"] * 100
-        metric_data["Pass Rate in Percentage"] = result_json["metrics"]["RequestEndpointPassRate"]["values"]["rate"] * 100
+        metric_data["95th percentile response time in ms"] = round(
+            result_json["metrics"]["RequestEndpointResponseTime"]["values"]["p(95)"], 2)
+        metric_data["Average response time in ms"] = round(
+            result_json["metrics"]["RequestEndpointResponseTime"]["values"]["avg"], 2)
+        metric_data["Request timeout Rate in Percentage"] = \
+        result_json["metrics"]["RequestEndpointRequestTimeoutRate"]["values"]["rate"] * 100
+        metric_data["Pass Rate in Percentage"] = result_json["metrics"]["RequestEndpointPassRate"]["values"][
+                                                     "rate"] * 100
         metric_data["Duration in min"] = result_json['TestSummary']['testData']['duration']
         metric_data["Concurrent Users"] = result_json["TestSummary"]["testData"]["vus"]
     except:
@@ -85,12 +91,12 @@ def update_config(config_id, config_details):
     config_dct = {
         config_id: config_details
     }
-    config_file = open('.\\data\\config.json')
+    config_file = open(CONFIG__FILE_PATH)
 
     config_json = json.load(config_file)
     config_json.update(config_dct)
 
-    with open(".\\data\\config.json", "w") as jsonfile:
+    with open(CONFIG__FILE_PATH, "w") as jsonfile:
         json.dump(config_json, jsonfile)
 
 
