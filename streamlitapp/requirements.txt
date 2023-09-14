@@ -1,0 +1,6 @@
+streamlit
+streamlit-option-menu
+streamlit-modal
+console-ctrl
+pandas
+plotly
