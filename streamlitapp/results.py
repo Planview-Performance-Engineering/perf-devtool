@@ -66,7 +66,10 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
                 display_results(right, test_b_results, execution_2, config_id)
 
         if test_a_results and test_b_results:
+<<<<<<< HEAD
 
+=======
+>>>>>>> f9076fd58102f98f53ef6e0c79af589df473cce3
             df = pd.DataFrame(
                 [[execution_id_1 , test_a_results['95th percentile response time in ms'],
                   test_a_results['Average response time in ms']],
@@ -76,7 +79,7 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
             )
 
             fig = px.bar(df, x="Test Results", y=["95th percentile response time in ms", "Average response time in ms"],
-                         text_auto=True, barmode='group', height=400, labels={"variable": "Metrix"})
+                         text_auto=True, barmode='group', height=400, labels={"variable": "Metrics"})
 
             fig.update_layout(
                 yaxis=dict(
