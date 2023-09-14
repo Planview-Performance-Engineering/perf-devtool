@@ -9,7 +9,7 @@ menu_lst = ["Config", "Execution", "Results"]
 def add_config_details(config_ids_list, default_config_index, selected_menu):
     payload = None
     payload_type = None
-    payload_as_sting = None
+    payload_as_string = None
     dsn = ""
     user_name = ""
     password = ""
@@ -50,7 +50,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
         payload_type = right.selectbox("Payload Type",
                                        ("application/json", "application/x-www-form-urlencoded",
                                         "text/xml;charset=utf-8"))
-        payload_as_sting = right.checkbox("Payload as Sting", value=config_details["payloadAsString"])
+        payload_as_string = right.checkbox("Payload as String", value=config_details["payloadAsString"])
 
     auth_type = right.selectbox("Authorization:", auth_lst, index=auth_lst.index(config_details['auth']))
 
@@ -74,7 +74,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
 
     def save_config():
         helper.save_config(new_config_id, host, api_endpoint, operation, is_local_host,
-                           payload, payload_type, payload_as_sting, auth_type, dsn, user_name, password, token,
+                           payload, payload_type, payload_as_string, auth_type, dsn, user_name, password, token,
                            duration, vus)
 
     if left_column.button('Save Config:'):
