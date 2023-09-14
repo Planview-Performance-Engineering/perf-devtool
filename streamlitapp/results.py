@@ -6,6 +6,7 @@ import plotly.express as px
 import streamlit as st
 from utils import helper
 
+
 colors = ['#7fc97f', '#beaed4', '#fdc086']
 
 
@@ -56,6 +57,7 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
         display_results(left, test_a_results, execution_id_1, config_id)
 
         test_b_results = None
+        #execution_2 = None
 
         if no_of_results > 1:
             execution_2 = right.selectbox("Select results 2: ", result_details, index=1, key="execution_id_1")
@@ -65,9 +67,9 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
 
         if test_a_results and test_b_results:
             df = pd.DataFrame(
-                [["Test A", test_a_results['95th percentile response time in ms'],
+                [[execution_id_1 , test_a_results['95th percentile response time in ms'],
                   test_a_results['Average response time in ms']],
-                 ["Test B", test_b_results['95th percentile response time in ms'],
+                 [execution_2 , test_b_results['95th percentile response time in ms'],
                   test_b_results['Average response time in ms']]],
                 columns=["Test Results", "95th percentile response time in ms", "Average response time in ms"]
             )
