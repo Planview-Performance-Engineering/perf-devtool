@@ -68,7 +68,12 @@ def get_result_data(config_id, execution_id):
 def get_results(config_id, execution_id):
     metric_data = {}
 
-    result_file = open('./resultlogs/' + config_id + '/' + execution_id + '.json')
+    results_file_path = os.path.abspath(
+        (os.path.join(os.path.dirname(__file__), fr'../resultLogs/{config_id}/{execution_id}.json')))
+
+    # result_file = open('./resultlogs/' + config_id + '/' + execution_id + '.json')
+    result_file = open(results_file_path)
+
     try:
         result_json = json.load(result_file)
         metric_data["95th percentile response time in ms"] = round(
@@ -76,7 +81,7 @@ def get_results(config_id, execution_id):
         metric_data["Average response time in ms"] = round(
             result_json["metrics"]["RequestEndpointResponseTime"]["values"]["avg"], 2)
         metric_data["Request timeout Rate in Percentage"] = \
-        result_json["metrics"]["RequestEndpointRequestTimeoutRate"]["values"]["rate"] * 100
+            result_json["metrics"]["RequestEndpointRequestTimeoutRate"]["values"]["rate"] * 100
         metric_data["Pass Rate in Percentage"] = result_json["metrics"]["RequestEndpointPassRate"]["values"][
                                                      "rate"] * 100
         metric_data["Duration in min"] = result_json['TestSummary']['testData']['duration']
@@ -129,7 +134,9 @@ def validate_json(json_data):
     return True
 
 
-def delete_result(config_id, execid):
-    flag = os.remove('./resultlogs/' + config_id + '/' + execid + '.json')
+def delete_result(config_id, execution_id):
+    file_path_to_delete = os.path.abspath(
+        (os.path.join(os.path.dirname(__file__), fr'../resultLogs/{config_id}/{execution_id}.json')))
+    flag = os.remove(file_path_to_delete)
 
     return flag
