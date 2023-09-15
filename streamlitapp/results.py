@@ -60,7 +60,7 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
         #execution_2 = None
 
         if no_of_results > 1:
-            execution_2 = right.selectbox("Select results 2: ", result_details, index=1, key="execution_id_1")
+            execution_2 = right.selectbox("Select results : 2", result_details, index=1, key="execution_id_1")
             if execution_id_1 != execution_2:
                 test_b_results = helper.get_results(config_id, execution_2)
                 display_results(right, test_b_results, execution_2, config_id)

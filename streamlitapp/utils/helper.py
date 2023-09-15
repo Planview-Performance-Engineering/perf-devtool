@@ -80,6 +80,10 @@ def get_results(config_id, execution_id):
             result_json["metrics"]["RequestEndpointResponseTime"]["values"]["p(95)"], 2)
         metric_data["Average response time in ms"] = round(
             result_json["metrics"]["RequestEndpointResponseTime"]["values"]["avg"], 2)
+        metric_data["Maximum response time in ms"] = round(
+            result_json["metrics"]["RequestEndpointResponseTime"]["values"]["max"], 2)
+        metric_data["Minimum response time in ms"] = round(
+            result_json["metrics"]["RequestEndpointResponseTime"]["values"]["min"], 2)
         metric_data["Request timeout Rate in Percentage"] = \
             result_json["metrics"]["RequestEndpointRequestTimeoutRate"]["values"]["rate"] * 100
         metric_data["Pass Rate in Percentage"] = result_json["metrics"]["RequestEndpointPassRate"]["values"][
