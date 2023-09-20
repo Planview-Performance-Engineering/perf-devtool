@@ -85,13 +85,15 @@ export function constructSummaryObj(CONFIG_ID, data, testData, logPath, requestT
     strTime = strTime.replace(':', '-')
 
     let STR_TIMESTAMP = strTime.toString()
+    let StrName = STR_TIMESTAMP.split(".");
 
-    let FILE_PATH = (RUN_NAME) ? `${RUN_NAME}_${STR_TIMESTAMP}` : `${STR_TIMESTAMP}`
+
+    let FILE_PATH = (RUN_NAME) ? `${RUN_NAME}_${StrName[0]}` : `${StrName[0]}`
 
 
     let jsonPath = `${logPath}/${CONFIG_ID}/${FILE_PATH}.json`
 
-    let resultSummary = { 'stdout': textSummary(data, { indent: ' ', enableColors: true }) }
+    let resultSummary = { 'stdout': textSummary(data, { indent: ' ', enableColors: false }) }
 
     resultSummary[jsonPath] = JSON.stringify(data)
 

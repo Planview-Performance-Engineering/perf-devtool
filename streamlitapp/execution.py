@@ -18,20 +18,20 @@ def get_run_params(config_ids_list, default_config_index, selected_menu):
     else:
         default_value_index = 0
 
-    config_id = st.selectbox("Select Config:", config_ids_list, index=default_value_index,
+    config_id = st.selectbox(":blue[Select Config Name]", config_ids_list, index=default_value_index,
                              key="config_iconfig_ids_listds_list")
 
     st.experimental_set_query_params(config_id=config_id, menu=selected_menu)
     config_details = helper.get_config_details(config_id)
 
-    duration = st.text_input("Duration:", value=config_details['duration'], disabled=True)
+    duration = st.text_input(":blue[Duration]", value=config_details['duration'], disabled=True)
 
-    no_vus = st.text_input("VUS", value=config_details['vus'], disabled=True)
+    no_vus = st.text_input(":blue[No of Concurrent Users]", value=config_details['vus'], disabled=True)
 
-    run_name = st.text_input("Execution Name:")
+    run_name = st.text_input(":blue[Execution Name]", placeholder="Unique name to save results, if not provided"
+                                                                  " results will be saved with timestamp")
 
     submit = st.button("Run")
-
 
     if submit:
         model = Modal(key="results-key", title="Test Execution")
@@ -92,4 +92,3 @@ def run_subprocess(config_id, duration, vus, run_name):
     )
 
     return process
-

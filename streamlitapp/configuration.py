@@ -35,14 +35,24 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
 
         host = left.text_input(":blue[Host URL]", value=config_details["hostname"], placeholder="Enter host url")
 
-    api_endpoint = left.text_input(":blue[API End Point]", value=config_details['endpoint'],
+    api_endpoint = left.text_input(":blue[Request End Point]", value=config_details['endpoint'],
                                    placeholder="Enter end point with query parameters")
     left.caption("Example: /planview/getAttributes")
 
     operation = right.selectbox(":blue[Select Operation]", op_lst,
                                 index=op_lst.index(config_details['method']), key="select_operation")
+    request_headers = left.text_area(":blue[Request Headers]",
+                                     value=config_details["requestHeaders"] if config_details["requestHeaders"] else {},
+                                     height=5)
+
+    if request_headers:
+        status = helper.validate_json(request_headers)
+        if not status:
+            st.error("Please provide valid JSON")
+
     if operation == "POST":
-        payload = left.text_area(":blue[Request Payload]", value=config_details["payload"], height=10)
+        payload = left.text_area(":blue[Request Payload]",
+                                 value=config_details["payload"] if config_details["payload"] else {}, height=10)
 
         if payload:
             status = helper.validate_json(payload)
@@ -58,7 +68,8 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
 
     if auth_type == "Basic":
         dsn = right.text_input(":blue[DSN]", placeholder="Enter DSN Name", value=config_details["dsn"])
-        user_name = right.text_input(":blue[User Name]", placeholder="Enter User Name", value=config_details["username"])
+        user_name = right.text_input(":blue[User Name]", placeholder="Enter User Name",
+                                     value=config_details["username"])
         password = right.text_input(":blue[Password]", placeholder="Enter Password", value=config_details["password"])
     elif auth_type == "Bearer":
         token = right.text_input(":blue[Token]", placeholder="Enter token", value=config_details["token"])
@@ -70,13 +81,13 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
                 "In general terms, more virtual users means more simulated traffic"
     duration = left.text_input(":blue[Duration in minutes]", placeholder="Enter duration in minutes",
                                value=config_details["duration"])
-    vus = left.text_input(":blue[No of Concurrent Users]", placeholder="Enter duration in minutes",
-                          value=config_details["vus"], help=help_text)
+    vus = right.text_input(":blue[No of Concurrent Users]", placeholder="Enter duration in minutes",
+                           value=config_details["vus"], help=help_text)
 
     def save_config():
         helper.save_config(new_config_id, host, api_endpoint, operation, is_local_host,
-                           payload, payload_type, payload_as_string, auth_type, dsn, user_name, password, token,
-                           duration, vus)
+                           payload, request_headers, payload_type, payload_as_string, auth_type, dsn, user_name,
+                           password, token, duration, vus)
 
     button1_css = """
     <style>
@@ -118,6 +129,8 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
             st.error(f"Config with {new_config_id} name already exists please provide new id")
         else:
             save_config()
+            st.experimental_set_query_params(config_id=new_config_id, menu=selected_menu)
+            st.experimental_rerun()
 
     placeholder = right_column.empty()
 
@@ -141,4 +154,12 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
         helper.update_config(config_id, config_details)
 
     if center_column.button("Delete", key="custom-button-3"):
-        pass
+
+        if config_id == 'default':
+            st.error("Default config can't be deleted")
+        else:
+            helper.delete_config_details(config_id)
+            config_ids_list = helper.get_config_ids_lst()
+            st.experimental_set_query_params(config_id='default', menu=selected_menu)
+
+            st.experimental_rerun()

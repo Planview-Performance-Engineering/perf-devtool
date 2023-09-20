@@ -15,6 +15,7 @@ const REQUEST_TIME_OUT = __ENV['timeout'] || '3m'
 const DSN = envData['dsn']
 const USERNAME = envData['username']
 const PASSWORD = envData['password']
+const HEADERS = envData['requestHeaders']
 
 let adminLoginCert;
 
@@ -34,11 +35,14 @@ export default function main(){
 
     group(`Request Endpoint:`,
     function () {
+        const headers = HEADERS
         const params = {
+            headers: headers,
             timeout : REQUEST_TIME_OUT
         }
-    
-        const response = http.get(`${HOST}/planview/${REQUEST_URL}`, params)
+        const reqiestURL = `${HOST}${REQUEST_URL}`
+
+        const response = http.get(reqiestURL, params)
         commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'GETREQUEST', REQUEST_TIME_OUT) 
     }
     );

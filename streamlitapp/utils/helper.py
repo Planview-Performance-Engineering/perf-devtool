@@ -108,14 +108,15 @@ def update_config(config_id, config_details):
         json.dump(config_json, jsonfile)
 
 
-def save_config(config_id, host, api_endpoint, operation, is_local_host, payload, payload_type, payload_as_string,
-                auth_type, dsn, user_name, password, token, duration, vus):
+def save_config(config_id, host, api_endpoint, operation, is_local_host, payload, request_headers, payload_type,
+                payload_as_string, auth_type, dsn, user_name, password, token, duration, vus):
     config_details = {
         "hostname": host,
         "endpoint": api_endpoint,
         "method": operation,
         "isLocalhost": is_local_host,
         "payload": payload,
+        "requestHeaders": request_headers,
         "payloadType": payload_type,
         "payloadAsString": payload_as_string,
         "auth": auth_type,
@@ -128,6 +129,14 @@ def save_config(config_id, host, api_endpoint, operation, is_local_host, payload
 
     }
     update_config(config_id, config_details)
+
+
+def delete_config_details(config_id):
+    config_file = read_config()
+    config_file.pop(config_id)
+
+    with open(CONFIG__FILE_PATH, "w") as jsonfile:
+        json.dump(config_file, jsonfile)
 
 
 def validate_json(json_data):

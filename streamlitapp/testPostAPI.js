@@ -30,7 +30,7 @@ export default function main(){
 
     group(`Request Endpoint:`,
     function () {
-        const response = http.post(`${HOST}/polaris/${REQUEST_URL}`, REQUEST_PAYLOAD, params)
+        const response = http.post(`${HOST}${REQUEST_URL}`, REQUEST_PAYLOAD, params)
         commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'POSTAPI', REQUEST_TIME_OUT)
     }
     );

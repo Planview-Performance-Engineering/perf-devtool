@@ -26,7 +26,7 @@ export default function main(){
 
     group(`Request Endpoint:`,
     function () {
-        const response = http.get(`${HOST}/polaris/${REQUEST_URL}`, params)
+        const response = http.get(`${HOST}${REQUEST_URL}`, params)
         commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'GETAPI', REQUEST_TIME_OUT)
     }
     );

@@ -44,7 +44,7 @@ export default function main(){
             timeout : REQUEST_TIME_OUT
         }
         const payload = JSON.stringify(REQUEST_PAYLOAD) ? PAYLOAD_AS_STRING : REQUEST_PAYLOAD
-        const response = http.post(`${HOST}/planview/${REQUEST_URL}`, payload, params)
+        const response = http.post(`${HOST}${REQUEST_URL}`, payload, params)
         commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'POSTAPI', REQUEST_TIME_OUT)
     }
     );
