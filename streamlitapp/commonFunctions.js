@@ -167,7 +167,6 @@ export function verifyResponseStatus(response, endPoint, apiAction, requestTimeo
         }
         else {
             passRate.add(false, { action: apiAction, endPoint: endPoint })
-            requestTimeoutRate.add(false, { action: apiAction, timeout: requestTimeout, endPoint: endPoint })
             fail(`get ${endPoint} attributes API failed with, ${response.body}`)
         }
 }
