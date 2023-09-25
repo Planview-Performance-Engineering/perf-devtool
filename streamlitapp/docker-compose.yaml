@@ -1,0 +1,24 @@
+version: '2.21.0'
+services:
+  streamlit-app:
+    build:
+      context: ./streamlitapp
+    volumes:
+      - myapp:./streamlitapp:/app:ro
+    ports:
+      - "8501:8501"  # Map container port 8501 to host port 8501
+    depends_on:
+      - k6-test
+
+  k6-test:
+    image: grafana/k6:latest
+    volumes:
+      - appresultLogs:./streamlitapp/resultLogs:/resultLogs:ro  # Mount the resultLogs folder from host into the container
+    ports:
+      - "6565:6565"  
+volumes:
+  myapp:
+  appresultLogs:
+
+
+    
