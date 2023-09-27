@@ -1,9 +1,13 @@
-version: '3'
+version: '3.4'
+networks:
+  k6:
 services:
   streamlitapp:
     build:
-      context: ./streamlitapp
-      dockerfile: ../streamlitapp/Dockerfile
+      context: .
+      dockerfile: ./Dockerfile
+    networks:
+      - k6
     volumes:
       - shared-data:/app
     ports:
@@ -15,6 +19,8 @@ services:
 
   k6-test:
     image: grafana/k6:latest
+    networks:
+      - k6
     ports:
       - "6565:6565"
     volumes:
