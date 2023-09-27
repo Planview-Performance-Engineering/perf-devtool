@@ -1,0 +1,26 @@
+version: '3'
+services:
+  streamlitapp:
+    build:
+      context: ./streamlitapp
+      dockerfile: ../streamlitapp/Dockerfile
+    volumes:
+      - shared-data:/app
+    ports:
+      - "8501:8501"
+    depends_on:
+      k6-test:
+        condition: service_healthy
+        restart: true
+
+  k6-test:
+    image: grafana/k6:latest
+    ports:
+      - "6565:6565"
+    volumes:
+      - shared-data:/app
+    
+volumes:
+  shared-data:
+
+    
