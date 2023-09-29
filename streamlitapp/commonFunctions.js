@@ -5,12 +5,12 @@ import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.1/index.js';
 
 
 let passRate = new Rate(`RequestEndpointPassRate`)
-let loginResponseTime = new Rate(`RequestEndpointRequestTimeoutRate`)
+let requestTimeoutRate = new Rate(`RequestEndpointRequestTimeoutRate`)
 let responseTime = new Trend(`RequestEndpointResponseTime`, true)
 
 let loginPassRate = new Rate(`LoginPassRate`)
-let requestTimeoutRate = new Rate(`LoginRequestTimeoutRate`)
-let loginRequestTimeoutRate = new Trend(`LoginResponseTime`, true)
+let loginRequestTimeoutRate = new Rate(`LoginRequestTimeoutRate`)
+let loginResponseTime = new Trend(`LoginResponseTime`, true)
 
 export function login(host, dsn, username, password, requestTimeout = '1m') {
     const LOGIN_URL = `${host}/planview/login/body.aspx`

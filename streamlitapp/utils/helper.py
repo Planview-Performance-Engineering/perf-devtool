@@ -90,6 +90,7 @@ def get_results(config_id, execution_id):
                                                      "rate"] * 100
         metric_data["Duration in min"] = result_json['TestSummary']['testData']['duration']
         metric_data["Concurrent Users"] = result_json["TestSummary"]["testData"]["vus"]
+        metric_data['Iterations'] = result_json['metrics']['iterations']['values']['count']
     except:
         pass
     return metric_data

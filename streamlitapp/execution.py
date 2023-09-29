@@ -58,8 +58,9 @@ def verify_results(process):
             status = False
             results += '\n' + line + '\n'
             console_ctrl.send_ctrl_c(process.pid)
-        elif 'RequestEndpoint' in line:
-            results += '\n' + line + '\n'
+        elif 'RequestEndpoint' in line or 'iterations...' in line:
+            str_line = line.replace('âœ“', '').replace('âœ—', '')
+            results += '\n' + str_line + '\n'
     return status, results
 
 
