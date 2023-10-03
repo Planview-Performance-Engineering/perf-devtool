@@ -1,6 +1,6 @@
 # Default ignored files
-/data/
-/resultLogs/
+/data
+/resultLogs
 /shelf/
 /workspace.xml
 
