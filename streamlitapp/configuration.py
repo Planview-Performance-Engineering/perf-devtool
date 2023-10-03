@@ -29,7 +29,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
 
     if is_local_host:
 
-        host = left.text_input(":blue[Host URL]", value="http://localhost", placeholder="Enter host url", disabled=True)
+        host = left.text_input(":blue[Host URL]", value="http://host.docker.internal", placeholder="Enter host url", disabled=True)
 
     else:
 
@@ -126,7 +126,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
 
     if left_column.button("Save", key="custom-button-1"):
         if new_config_id in config_ids_list:
-            st.error(f"Config with {new_config_id} name already exists please provide new id")
+            st.error(f"Config with {new_config_id} name already exists please provide new name")
         else:
             save_config()
             st.experimental_set_query_params(config_id=new_config_id, menu=selected_menu)

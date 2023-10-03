@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_modal import Modal
 import subprocess
 import os
-import console_ctrl
+import signal
 
 from utils import helper
 
@@ -40,7 +40,8 @@ def get_run_params(config_ids_list, default_config_index, selected_menu):
                 placeholder = st.empty()
                 process = run_subprocess(config_id, duration, no_vus, run_name)
                 if placeholder.button("Stop", key=1):
-                    console_ctrl.send_ctrl_c(process.pid)
+                    #console_ctrl.send_ctrl_c(process.pid)
+                    os.kill(process.pid, signal.SIGKILL)
                     model.close()
                 status, results = verify_results(process)
                 if status:
@@ -57,10 +58,15 @@ def verify_results(process):
         if 'level=error' in line:
             status = False
             results += '\n' + line + '\n'
-            console_ctrl.send_ctrl_c(process.pid)
+            #console_ctrl.send_ctrl_c(process.pid)
+            os.kill(process.pid, signal.SIGKILL)
         elif 'RequestEndpoint' in line or 'iterations...' in line:
             str_line = line.replace('âœ“', '').replace('âœ—', '')
             results += '\n' + str_line + '\n'
+            #console_ctrl.send_ctrl_c(process.pid)
+            os.kill(process.pid, signal.SIGKILL)
+        # elif 'RequestEndpoint' in line:
+        #     results += '\n' + line + '\n'
     return status, results
 
 
@@ -74,13 +80,13 @@ def run_subprocess(config_id, duration, vus, run_name):
 
     command = None
     if auth_type == "Bearer" and method == "GET":
-        command = f'k6 run .\\testGetAPI.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
+        command = f'k6 run ./testGetAPI.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
     elif auth_type == "Bearer" and method == "POST":
-        command = f'k6 run .\\testPostAPI.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
+        command = f'k6 run ./testPostAPI.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
     elif auth_type == "Basic" and method == "GET":
-        command = f"k6 run .\\testGetRequest.js -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}"
+        command = f"k6 run ./testGetRequest.js -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}"
     elif auth_type == "Basic" and method == "POST":
-        command = f"k6 run .\\testPostRequest.js -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}"
+        command = f"k6 run ./testPostRequest.js -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}"
 
     process = subprocess.Popen(
         command,
@@ -89,7 +95,7 @@ def run_subprocess(config_id, duration, vus, run_name):
         stderr=subprocess.STDOUT,
         bufsize=1,
         universal_newlines=True,
-        creationflags=subprocess.CREATE_NEW_CONSOLE
+        #creationflags=subprocess.CREATE_NEW_CONSOLE
     )
 
     return process
