@@ -13,12 +13,15 @@ const HOST = envData['hostname']
 const REQUEST_URL = envData['endpoint']
 const REQUEST_TIME_OUT = __ENV['timeout'] || '3m'
 const TOKEN = envData['token']
+const REQUEST_HEADERS = envData['requestHeaders']
 
 export default function main(){
     let headers = {
         "content-type": "application/json",
         "Authorization": `bearer ${TOKEN}`,
     }
+    headers.update(REQUEST_HEADERS)
+    
     const params = {
         headers: headers,
         timeout : REQUEST_TIME_OUT

@@ -16,6 +16,7 @@ const REQUEST_TIME_OUT = __ENV['timeout'] || '3m'
 const TOKEN = envData['token']
 const REQUEST_PAYLOAD = envData['payload']
 const CONTENT_TYPE = envData['payloadType']
+const HEADERS = envData['requestHeaders']
 
 
 export default function main(){
@@ -23,6 +24,7 @@ export default function main(){
         "content-type": CONTENT_TYPE,
         "Authorization": `bearer ${TOKEN}`,
     }
+    headers.update(HEADERS)
     const params = {
         headers: headers,
         timeout : REQUEST_TIME_OUT

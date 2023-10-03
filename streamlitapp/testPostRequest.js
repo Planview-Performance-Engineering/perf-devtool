@@ -19,6 +19,7 @@ const DSN = envData['dsn']
 const USERNAME = envData['username']
 const PASSWORD = envData['password']
 const PAYLOAD_AS_STRING = envData['payloadAsString']
+const HEADERS = envData['requestHeaders']
 
 let adminLoginCert;
 
@@ -39,8 +40,12 @@ export default function main(){
 
     group(`Request Endpoint:`,
     function () {
+        let headers = {
+            "content-type": CONTENT_TYPE,
+        }
+        headers.update(headers)
         const params = {
-            headers: {"content-type": CONTENT_TYPE},
+            headers: headers,
             timeout : REQUEST_TIME_OUT
         }
         const payload = JSON.stringify(REQUEST_PAYLOAD) ? PAYLOAD_AS_STRING : REQUEST_PAYLOAD

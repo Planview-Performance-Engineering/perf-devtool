@@ -35,9 +35,9 @@ export default function main(){
 
     group(`Request Endpoint:`,
     function () {
-        const headers = HEADERS
+        // const headers = HEADERS
         const params = {
-            headers: headers,
+            headers: HEADERS,
             timeout : REQUEST_TIME_OUT
         }
         const reqiestURL = `${HOST}${REQUEST_URL}`
