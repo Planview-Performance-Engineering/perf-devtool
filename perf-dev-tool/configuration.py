@@ -81,6 +81,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
     auth_type = right.selectbox(":blue[Authorization]", auth_lst, index=auth_lst.index(config_details['auth']))
 
     if auth_type == "Basic":
+        right.caption("Used for Portfolio service request. Use Portfolio dsn,username and password here")
         dsn = right.text_input(":blue[DSN]", placeholder="Enter DSN Name", value=config_details["dsn"])
         user_name = right.text_input(":blue[User Name]", placeholder="Enter User Name",
                                      value=config_details["username"])
@@ -90,6 +91,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
 
     new_config_id = left.text_input(":blue[Config Name]", placeholder="Enter unique Name to save config details",
                                     value=config_id)
+    left.caption("Provide unique config name for the test configuration")
 
     help_text = "Test runs multiple iterations in parallel with virtual users (VUs). " \
                 "In general terms, more virtual users means more simulated traffic"
