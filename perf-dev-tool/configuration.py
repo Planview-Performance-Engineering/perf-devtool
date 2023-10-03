@@ -1,9 +1,11 @@
 import streamlit as st
 from utils import helper
+from streamlit_modal import Modal
 
 op_lst = ["GET", "POST", "PUT"]
 auth_lst = ["Basic", "Bearer"]
 menu_lst = ["Config", "Execution", "Results"]
+
 
 
 def add_config_details(config_ids_list, default_config_index, selected_menu):
@@ -97,9 +99,18 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
                            value=config_details["vus"], help=help_text)
 
     def save_config():
+
         helper.save_config(new_config_id, host, api_endpoint, operation, is_local_host,
                            payload, request_headers, payload_type, payload_as_string, auth_type, dsn, user_name,
                            password, token, duration, vus)
+        
+    def display_popup(text):
+        model = Modal(key="results-key",title=text)
+        with model.container():
+            #st.write(text)
+            if st.button("OK"):
+                st.experimental_rerun()
+
 
     button1_css = """
     <style>
@@ -138,11 +149,12 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
 
     if left_column.button("Save", key="custom-button-1"):
         if new_config_id in config_ids_list:
-            st.error(f"Config with {new_config_id} name already exists please provide new name")
+            st.error(f"Config with {new_config_id} can be updated with only new auth credentails. Save with new config name for updating other details.")
         else:
             save_config()
             st.experimental_set_query_params(config_id=new_config_id, menu=selected_menu)
-            st.experimental_rerun()
+            display_popup(f"Saved as new config {new_config_id}")
+            #st.experimental_rerun()
 
     placeholder = right_column.empty()
 
@@ -161,9 +173,10 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
         config_details['password'] = password
         config_details['duration'] = duration
         config_details['vus'] = vus
-        placeholder.button('Update', disabled=True, key="custom-button-2")
+        placeholder.button('Update', disabled=True)
 
         helper.update_config(config_id, config_details)
+        st.success("Auth credentials are updated")
 
     if center_column.button("Delete", key="custom-button-3"):
 
@@ -173,5 +186,6 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
             helper.delete_config_details(config_id)
             config_ids_list = helper.get_config_ids_lst()
             st.experimental_set_query_params(config_id='default', menu=selected_menu)
+            display_popup(f"Config {config_id} deleted")
 
-            st.experimental_rerun()
+            #st.experimental_rerun()
