@@ -3,7 +3,6 @@ import { group } from "k6";
 
 import * as commonFunctions from './commonFunctions.js'
 
-
 let testData = open("./data/config.json")
 testData = JSON.parse(testData)
 
@@ -14,15 +13,15 @@ const HOST = envData['hostname']
 const REQUEST_URL = envData['endpoint']
 const REQUEST_TIME_OUT = __ENV['timeout'] || '3m'
 const TOKEN = envData['token']
-const REQUEST_PAYLOAD = envData['payload']
-const CONTENT_TYPE = envData['payloadType']
-
+const REQUEST_HEADERS = envData['requestHeaders']
 
 export default function main(){
     let headers = {
-        "content-type": CONTENT_TYPE,
+        "content-type": "application/json",
         "Authorization": `bearer ${TOKEN}`,
     }
+    headers.update(REQUEST_HEADERS)
+    
     const params = {
         headers: headers,
         timeout : REQUEST_TIME_OUT
@@ -30,8 +29,8 @@ export default function main(){
 
     group(`Request Endpoint:`,
     function () {
-        const response = http.post(`${HOST}${REQUEST_URL}`, REQUEST_PAYLOAD, params)
-        commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'POSTAPI', REQUEST_TIME_OUT)
+        const response = http.get(`${HOST}${REQUEST_URL}`, params)
+        commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'GETAPI', REQUEST_TIME_OUT)
     }
     );
     
