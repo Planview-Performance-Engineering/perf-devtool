@@ -7,6 +7,18 @@ menu_lst = ["Config", "Execution", "Results"]
 
 
 def add_config_details(config_ids_list, default_config_index, selected_menu):
+
+    m = st.markdown("""
+    <style>
+    div.stButton > button:first-child {
+    background-color: #8fbc8f;
+    color:#ffffff;
+    }
+    div.stButton > button:hover {
+    background-color: #8fbc8f;
+    color:#ff0000;
+    }
+    </style>""", unsafe_allow_html=True)
     payload = None
     payload_type = None
     payload_as_string = None
