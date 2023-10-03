@@ -1,13 +1,8 @@
-import json
 import pandas as pd
-import altair as alt
 import plotly.express as px
 
 import streamlit as st
 from utils import helper
-
-
-colors = ['#7fc97f', '#beaed4', '#fdc086']
 
 
 def display_results(left, results_data, execution_id, config_id):

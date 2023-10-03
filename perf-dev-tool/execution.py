@@ -31,7 +31,7 @@ def get_run_params(config_ids_list, default_config_index, selected_menu):
     run_name = st.text_input(":blue[Execution Name]", placeholder="Unique name to save results, if not provided"
                                                                   " results will be saved with timestamp")
 
-    submit = st.button("Run")
+    submit = st.button("Run", type="primary")
 
     if submit:
         model = Modal(key="results-key", title="Test Execution")
