@@ -22,9 +22,7 @@ jobs:
         
       - name: Change working directory and run a command
         run: cd perf-dev-tool
-        # # Run your desired command in the specified directory
-        # your-command-here
-        # working-directory: path/to/your/directory
+        working-directory: perf-dev-tool
         
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
