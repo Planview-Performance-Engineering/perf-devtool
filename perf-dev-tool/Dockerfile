@@ -16,7 +16,7 @@ RUN apt-get -y update && apt-get install -y apt-transport-https
 RUN apt-get install -y python3-pip
 #RUN pip3 install streamlit
 #RUN apk add --update --no-cache python3 py-pip
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir -r perf-dev-tool/requirements.txt
 
 RUN apt-get install -y ca-certificates
 RUN apt-get install -y gnupg dirmngr
@@ -34,5 +34,5 @@ EXPOSE 8501
 HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
 
 # Specify the command to run when the container starts
-ENTRYPOINT  ["streamlit", "run", "app.py", "--server.port=8501"]
+ENTRYPOINT  ["streamlit", "run", "perf-dev-tool/app.py", "--server.port=8501"]
 
