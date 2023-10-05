@@ -3,7 +3,7 @@ import { group } from "k6";
 
 import * as commonFunctions from './commonFunctions.js'
 
-let testData = open("./data/config.json")
+let testData = open("./data/configuration/config.json")
 testData = JSON.parse(testData)
 
 const CONFIG_ID = __ENV['configID']
@@ -37,7 +37,7 @@ export default function main(){
 }
 
 export function handleSummary(data) {
-  let logPath = `./resultLogs`
+  let logPath = `./data/resultLogs`
 
   let summaryDetailsDct = commonFunctions.constructSummaryObj(CONFIG_ID, data, envData, logPath, REQUEST_TIME_OUT)
   return summaryDetailsDct

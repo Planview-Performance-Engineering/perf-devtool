@@ -1,7 +1,7 @@
 import json
 import os
 
-CONFIG__FILE_PATH = os.path.abspath((os.path.join(os.path.dirname(__file__), r'../data/config.json')))
+CONFIG__FILE_PATH = os.path.abspath((os.path.join(os.path.dirname(__file__), r'../data/configuration/config.json')))
 
 
 def read_config():
@@ -25,7 +25,7 @@ def get_config_details(config_id):
 def get_execution_list(config_id):
     try:
 
-        files = os.listdir('.//resultLogs/' + config_id)
+        files = os.listdir('.//data/resultLogs/' + config_id)
 
         for index, filename in enumerate(files):
             files[index] = filename.replace('.json', '')
@@ -41,7 +41,7 @@ def get_result_data(config_id, execution_id):
     metric_data = {}
 
     for execution in execution_id:
-        result_file = open('./resultlogs/' + config_id + '/' + execution + '.json')
+        result_file = open('./data/resultlogs/' + config_id + '/' + execution + '.json')
 
         try:
 
@@ -69,7 +69,7 @@ def get_results(config_id, execution_id):
     metric_data = {}
 
     results_file_path = os.path.abspath(
-        (os.path.join(os.path.dirname(__file__), fr'../resultLogs/{config_id}/{execution_id}.json')))
+        (os.path.join(os.path.dirname(__file__), fr'../data/resultLogs/{config_id}/{execution_id}.json')))
 
     # result_file = open('./resultlogs/' + config_id + '/' + execution_id + '.json')
     result_file = open(results_file_path)
@@ -150,7 +150,7 @@ def validate_json(json_data):
 
 def delete_result(config_id, execution_id):
     file_path_to_delete = os.path.abspath(
-        (os.path.join(os.path.dirname(__file__), fr'../resultLogs/{config_id}/{execution_id}.json')))
+        (os.path.join(os.path.dirname(__file__), fr'../data/resultLogs/{config_id}/{execution_id}.json')))
     flag = os.remove(file_path_to_delete)
 
     return flag
