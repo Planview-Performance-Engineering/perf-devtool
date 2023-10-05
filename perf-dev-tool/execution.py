@@ -4,8 +4,7 @@ import subprocess
 import os
 import signal
 import asyncio
-import console_ctrl
-import multiprocessing, time
+#import console_ctrl
 
 from utils import helper
 
@@ -41,12 +40,12 @@ def get_run_params(config_ids_list, default_config_index, selected_menu):
         with model.container():
             with st.spinner("Running Test...."):
                 placeholder = st.empty()
-                #placeholder1 = st.empty()
                 process = run_subprocess(config_id, duration, no_vus, run_name)
-                # if placeholder.button("Stop", key=1, type="primary"):
-                #     console_ctrl.send_ctrl_c(process.pid)
-                #     #os.kill(process.pid, signal.SIGKILL)
-                #     model.close()
+                if placeholder.button("Stop", key=1, type="primary"):
+                    #console_ctrl.send_ctrl_c(process.pid)
+                    os.kill(process.pid, signal.SIGKILL)
+                    process.wait()
+                    model.close()
                 status, results = verify_results(process)
                 if status:
                     st.success(f"Test Completed With Below Results: \n {results}")
@@ -54,32 +53,33 @@ def get_run_params(config_ids_list, default_config_index, selected_menu):
                     st.error(f"Test Failed with \n {results}")
                 #asyncio.run(timer(duration,placeholder1))
                 placeholder.text("Test Completed!! Proceed towards results")
-                #placeholder.button("Stop", disabled=True, key=2)
 
 
 def verify_results(process):
 
-    stop = st.button("Stop", key=1, type="primary")
+    # placeholder = st.empty()
+    # stop = placeholder.button("Stop", key=1, type ="primary")
 
     results = ''
     status = True
     for line in process.stdout:
-        if stop:
-            status = False
-            results = 'Test Terminated'
-            console_ctrl.send_ctrl_c(process.pid)
-        elif 'level=error' in line:
+        # if stop:
+        #     status = False
+        #     results += '\n' + line + '\n'
+        #     os.kill(process.pid, signal.SIGTERM)
+        #     process.wait()
+        if 'level=error' in line:
             status = False
             results += '\n' + line + '\n'
-            console_ctrl.send_ctrl_c(process.pid)
-            #os.kill(process.pid, signal.SIGKILL)
+            #console_ctrl.send_ctrl_c(process.pid)
+            os.kill(process.pid, signal.SIGKILL)
         elif 'RequestEndpoint' in line or 'iterations...' in line:
             str_line = line.replace('âœ“', '').replace('âœ—', '')
             results += '\n' + str_line + '\n'
-            #console_ctrl.send_ctrl_c(process.pid)
         elif 'RequestEndpoint' in line:
             results += '\n' + line + '\n'
     
+    #placeholder.button("OK", key=2, type ="primary")
     return status, results
 
 
@@ -102,14 +102,13 @@ def run_subprocess(config_id, duration, vus, run_name):
         command = f"k6 run ./testPostRequest.js -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}"
 
     process = subprocess.Popen(
-        #"exec " + command,
-        command,
+        "exec " + command,
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         bufsize=1,
         universal_newlines=True,
-        creationflags=subprocess.CREATE_NEW_CONSOLE
+        #creationflags=subprocess.CREATE_NEW_CONSOLE
     )
 
     return process
