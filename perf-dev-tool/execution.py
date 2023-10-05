@@ -52,14 +52,13 @@ def get_run_params(config_ids_list, default_config_index, selected_menu):
                 else:
                     st.error(f"Test Failed with \n {results}")
                 #asyncio.run(timer(duration,placeholder1))
-                placeholder.text("Test Completed!! Proceed towards results")
+                placeholder.button("OK", key=2, type="primary")
 
 
 def verify_results(process):
 
     # placeholder = st.empty()
     # stop = placeholder.button("Stop", key=1, type ="primary")
-
     results = ''
     status = True
     for line in process.stdout:
@@ -88,8 +87,8 @@ def run_subprocess(config_id, duration, vus, run_name):
     method = config_details['method']
     auth_type = config_details['auth']
 
-    if not os.path.isdir(f"./resultLogs/{config_id}"):
-        os.mkdir(f"./resultLogs/{config_id}")
+    if not os.path.isdir(f"./data/resultLogs/{config_id}"):
+        os.mkdir(f"./data/resultLogs/{config_id}")
 
     command = None
     if auth_type == "Bearer" and method == "GET":
