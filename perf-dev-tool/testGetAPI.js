@@ -20,7 +20,7 @@ export default function main(){
         "content-type": "application/json",
         "Authorization": `bearer ${TOKEN}`,
     }
-    headers.update(REQUEST_HEADERS)
+    //headers.update(REQUEST_HEADERS)
     
     const params = {
         headers: headers,

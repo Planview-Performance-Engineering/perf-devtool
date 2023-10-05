@@ -154,3 +154,6 @@ def delete_result(config_id, execution_id):
     flag = os.remove(file_path_to_delete)
 
     return flag
+
+
+

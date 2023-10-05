@@ -74,7 +74,7 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
 
             fig.update_layout(
                 yaxis=dict(
-                    title='Response Time in MS',
+                    title='Response time in milli seconds',
                     titlefont_size=16,
                     tickfont_size=14,
                 ),

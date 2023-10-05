@@ -24,7 +24,7 @@ export default function main(){
         "content-type": CONTENT_TYPE,
         "Authorization": `bearer ${TOKEN}`,
     }
-    headers.update(HEADERS)
+    //headers.update(HEADERS)
     const params = {
         headers: headers,
         timeout : REQUEST_TIME_OUT

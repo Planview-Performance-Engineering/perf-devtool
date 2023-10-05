@@ -43,7 +43,7 @@ export default function main(){
         let headers = {
             "content-type": CONTENT_TYPE,
         }
-        headers.update(headers)
+       //headers.update(headers)
         const params = {
             headers: headers,
             timeout : REQUEST_TIME_OUT
