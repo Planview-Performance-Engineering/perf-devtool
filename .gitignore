@@ -4,11 +4,8 @@
 
 .idea/
 *.pyc
-*.pyc
-*.pyc
-*.pyc
+
 streamlitapp/__pycache__/configuration.cpython-310.pyc
 streamlitapp/__pycache__/configuration.cpython-310.pyc
 streamlitapp/__pycache__/execution.cpython-310.pyc
-*.pyc
 *.json
