@@ -101,7 +101,7 @@ def run_subprocess(config_id, duration, vus, run_name):
         command = f"k6 run ./testPostRequest.js -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}"
 
     process = subprocess.Popen(
-        "exec " + command,
+       "exec " + command,
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
