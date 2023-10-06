@@ -13,7 +13,7 @@ let loginRequestTimeoutRate = new Rate(`LoginRequestTimeoutRate`)
 let loginResponseTime = new Trend(`LoginResponseTime`, true)
 
 export function login(host, dsn, username, password, requestTimeout = '1m') {
-    const LOGIN_URL = `${host}/planview/login/body.aspx`
+    const LOGIN_URL = `${host}/planview/login/body.aspx?manual=y`
 
     const payload = {
         DSN: dsn,
