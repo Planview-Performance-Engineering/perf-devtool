@@ -93,6 +93,8 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
                                     value=config_id)
     left.caption("Provide unique config name for the test configuration")
 
+    new_config_id = new_config_id.replace(" ","_")
+
     help_text = "Test runs multiple iterations in parallel with virtual users (VUs). " \
                 "In general terms, more virtual users means more simulated traffic"
     duration = left.text_input(":blue[Duration in minutes]", placeholder="Enter duration in minutes",
