@@ -86,6 +86,7 @@ def run_subprocess(config_id, duration, vus, run_name):
     config_details = helper.get_config_details(config_id)
     method = config_details['method']
     auth_type = config_details['auth']
+    run_name = run_name.replace(" ", "_")
 
     if not os.path.isdir(f"./data/resultLogs/{config_id}"):
         os.mkdir(f"./data/resultLogs/{config_id}")

@@ -111,6 +111,7 @@ def update_config(config_id, config_details):
 
 def save_config(config_id, host, api_endpoint, operation, is_local_host, payload, request_headers, payload_type,
                 payload_as_string, auth_type, dsn, user_name, password, token, duration, vus):
+    config_id = config_id.replace(" ","_")
     config_details = {
         "hostname": host,
         "endpoint": api_endpoint,
