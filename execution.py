@@ -3,7 +3,7 @@ from streamlit_modal import Modal
 import subprocess
 import os
 import signal
-import asyncio
+import time
 #import console_ctrl
 
 from utils import helper
@@ -46,7 +46,7 @@ def get_run_params(config_ids_list, default_config_index, selected_menu):
                     os.kill(process.pid, signal.SIGKILL)
                     process.wait()
                     model.close()
-                status, results = verify_results(process)
+                status, results = verify_results(process,duration)
                 if status:
                     st.success(f"Test Completed With Below Results: \n {results}")
                 else:
@@ -55,10 +55,13 @@ def get_run_params(config_ids_list, default_config_index, selected_menu):
                 placeholder.button("OK", key=2, type="primary")
 
 
-def verify_results(process):
+def verify_results(process,duration):
 
     # placeholder = st.empty()
     # stop = placeholder.button("Stop", key=1, type ="primary")
+    placeholder1 = st.empty()
+    start_time = time.time()
+    remaining_time = None
     results = ''
     status = True
     for line in process.stdout:
@@ -77,6 +80,14 @@ def verify_results(process):
             results += '\n' + str_line + '\n'
         elif 'RequestEndpoint' in line:
             results += '\n' + line + '\n'
+
+        current_time = time.time()
+        remaining_time = max(0, ((int(duration)*60) - int(current_time - start_time)))
+        if remaining_time > 0:
+            placeholder1.write(f"Remaining test duration: {remaining_time} seconds")
+        else:
+            placeholder1.write(f"Total Test duration is {duration} minutes")
+
     
     #placeholder.button("OK", key=2, type ="primary")
     return status, results
@@ -112,11 +123,3 @@ def run_subprocess(config_id, duration, vus, run_name):
     )
 
     return process
-
-async def timer(duration,placeholder):
-    N = int(duration)*60
-    for secs in range(N,0,-1):
-        mm, ss = secs//60, secs%60
-        placeholder.metric("Test duration remaining in min::sec", f"{mm:02d}:{ss:02d}")
-        await asyncio.sleep(1)
-    placeholder.metric("Test duration remaining",value="", label_visibility="hidden")
