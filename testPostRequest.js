@@ -43,7 +43,7 @@ export default function main(){
     group(`Request Endpoint:`,
     function () {
         let headers = {
-            headers: HEADERS,
+            headers: JSON.parse(HEADERS),
             "content-type": CONTENT_TYPE,
         }
        //headers.update(headers)

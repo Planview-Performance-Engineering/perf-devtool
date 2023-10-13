@@ -40,7 +40,7 @@ export default function main(){
     group(`Request Endpoint:`,
     function () {
         const params = {
-            headers: HEADERS,
+            headers: JSON.parse(HEADERS),
             timeout : REQUEST_TIME_OUT
         }
         const reqiestURL = `${HOST}${REQUEST_URL}`
