@@ -3,9 +3,8 @@ from utils import helper
 from streamlit_modal import Modal
 
 op_lst = ["GET", "POST", "PUT"]
-auth_lst = ["Basic", "Bearer"]
+auth_lst = ["Basic", "Bearer", "CustomAuth_ThroughHeader"]
 menu_lst = ["Config", "Execution", "Results"]
-
 
 
 def add_config_details(config_ids_list, default_config_index, selected_menu):

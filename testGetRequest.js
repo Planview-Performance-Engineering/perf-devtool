@@ -16,6 +16,7 @@ const DSN = envData['dsn']
 const USERNAME = envData['username']
 const PASSWORD = envData['password']
 const HEADERS = envData['requestHeaders']
+const AUTH = envData['auth']
 
 let adminLoginCert;
 
@@ -23,19 +24,21 @@ let adminLoginCert;
 export default function main(){
     let vuJar = http.cookieJar();
 
-    group(`Login to ${HOST}`,
-    function () {
-        if (!adminLoginCert) {
-            adminLoginCert = commonFunctions.login(HOST, DSN, USERNAME, PASSWORD, REQUEST_TIME_OUT)
+    if (AUTH == "Basic") {
+
+        group(`Login to ${HOST}`,
+        function () {
+            if (!adminLoginCert) {
+                adminLoginCert = commonFunctions.login(HOST, DSN, USERNAME, PASSWORD, REQUEST_TIME_OUT)
+            }
+            vuJar.set(`${HOST}`, 'LoginCert', adminLoginCert)
+            sleep(3)
         }
-        vuJar.set(`${HOST}`, 'LoginCert', adminLoginCert)
-        sleep(3)
+        );
     }
-    );
 
     group(`Request Endpoint:`,
     function () {
-        // const headers = HEADERS
         const params = {
             headers: HEADERS,
             timeout : REQUEST_TIME_OUT
