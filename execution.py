@@ -107,9 +107,9 @@ def run_subprocess(config_id, duration, vus, run_name):
         command = f'k6 run ./testGetAPI.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
     elif auth_type == "Bearer" and method == "POST":
         command = f'k6 run ./testPostAPI.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
-    elif auth_type == "Basic" and method == "GET":
+    elif auth_type == "Basic" or auth_type == "CustomAuth_ThroughHeader" and method == "GET":
         command = f"k6 run ./testGetRequest.js -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}"
-    elif auth_type == "Basic" and method == "POST":
+    elif auth_type == "Basic" or auth_type == "CustomAuth_ThroughHeader" and method == "POST":
         command = f"k6 run ./testPostRequest.js -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}"
 
     process = subprocess.Popen(
