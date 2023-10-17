@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "default": {
     "hostname": "https://localhost",
@@ -17,3 +18,6 @@
     "vus": "1"
   }
 }
+=======
+{"default": {"hostname": "https://perftestfr001.pvcloud.com", "endpoint": "/polaris/public-api/work/attributes/available", "method": "GET", "isLocalhost": false, "payload": null, "requestHeaders": "{}", "payloadType": null, "payloadAsString": null, "auth": "Bearer", "dsn": "", "username": "", "password": "", "token": "eyJraWQiOiJwcm0iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBfYWNjb3VudF9pZCI6bnVsbCwiYXBwX3VzZXJfaWQiOm51bGwsInNjb3BlIjoiIiwiZXhwIjoxNjkzOTg2NzI5LjAsImlhdCI6MTY5Mzk4MzEyOS4wLCJzdWIiOiJTamxmazZjd1RFS0tpcmxfSlBZZTVvTXp4X2lPUW1iNThkS3VyIiwianRpIjoiU2NwcVJ3YkZXbm1EVWJzZGZ5N1F1ajB3aUF1N2xzY001LW1uZCIsImlzcyI6Ii9wb2xhcmlzIn0.cEVGRH9AhlmfYlwSKNuKvWdF06muE5NpyLWS38EASu0", "duration": "1", "vus": "1"}}
+>>>>>>> 7396aa7bf8062e96657c6a3c7e41eab6b946591d
