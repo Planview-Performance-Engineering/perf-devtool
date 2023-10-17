@@ -20,8 +20,9 @@ export default function main(){
         "content-type": "application/json",
         "Authorization": `bearer ${TOKEN}`,
     }
-    //headers.update(REQUEST_HEADERS)
     
+    Object.assign(headers, JSON.parse(REQUEST_HEADERS))
+
     const params = {
         headers: headers,
         timeout : REQUEST_TIME_OUT

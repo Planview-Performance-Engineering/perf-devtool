@@ -43,15 +43,16 @@ export default function main(){
     group(`Request Endpoint:`,
     function () {
         let headers = {
-            headers: JSON.parse(HEADERS),
             "content-type": CONTENT_TYPE,
+            timeout : REQUEST_TIME_OUT
         }
-       //headers.update(headers)
+        Object.assign(headers, JSON.parse(HEADERS))
+
         const params = {
             headers: headers,
             timeout : REQUEST_TIME_OUT
         }
-        const payload = JSON.stringify(REQUEST_PAYLOAD) ? PAYLOAD_AS_STRING : REQUEST_PAYLOAD
+        const payload = PAYLOAD_AS_STRING ? JSON.stringify(REQUEST_PAYLOAD) : REQUEST_PAYLOAD
         const response = http.post(`${HOST}${REQUEST_URL}`, payload, params)
         commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'POSTAPI', REQUEST_TIME_OUT)
     }

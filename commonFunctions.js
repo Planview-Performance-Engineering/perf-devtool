@@ -163,7 +163,7 @@ export function verifyResponseStatus(response, endPoint, apiAction, requestTimeo
         else if (response.error.includes('request timeout')) {
             passRate.add(false, { action: apiAction, endPoint: endPoint })
             requestTimeoutRate.add(true, { action: apiAction, timeout: requestTimeout, endPoint: endPoint })
-            fail(`Request timeout exception occured while getting ${endPoint} attributes,API url is:${apiUrl}`)
+            fail(`Request timeout exception occured while getting attributes,API url is:${endPoint}`)
         }
         else {
             passRate.add(false, { action: apiAction, endPoint: endPoint })
