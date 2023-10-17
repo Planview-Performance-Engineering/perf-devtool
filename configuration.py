@@ -2,7 +2,7 @@ import streamlit as st
 from utils import helper
 from streamlit_modal import Modal
 
-op_lst = ["GET", "POST", "PUT"]
+op_lst = ["GET", "POST"]
 auth_lst = ["Basic", "Bearer", "CustomAuth_ThroughHeader"]
 menu_lst = ["Config", "Execution", "Results"]
 
@@ -75,7 +75,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
                                        ("application/json", "application/x-www-form-urlencoded",
                                         "text/xml;charset=utf-8"))
 
-        payload_as_string = right.checkbox(":blue[Payload as Sting]", value=config_details["payloadAsString"])
+        payload_as_string = right.checkbox(":blue[Payload as String]", value=config_details["payloadAsString"])
 
     auth_type = right.selectbox(":blue[Authorization]", auth_lst, index=auth_lst.index(config_details['auth']))
 
