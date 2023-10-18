@@ -60,8 +60,9 @@ def verify_results(process,duration):
     # placeholder = st.empty()
     # stop = placeholder.button("Stop", key=1, type ="primary")
     placeholder1 = st.empty()
-    start_time = time.time()
-    remaining_time = None
+    start_time = time.time()    
+    progress_text = "Test is initializing"
+    progress_bar = st.progress(0, text=progress_text)
     results = ''
     status = True
     for line in process.stdout:
@@ -82,14 +83,19 @@ def verify_results(process,duration):
             results += '\n' + line + '\n'
 
         current_time = time.time()
-        remaining_time = max(0, ((int(duration)*60) - int(current_time - start_time)))
-        if remaining_time > 0:
-            placeholder1.write(f"Remaining test duration: {remaining_time} seconds")
+        elapsed_time = max(0, int(current_time - start_time)) 
+
+        if elapsed_time < (int(duration)*60):
+            placeholder1.write(f"Total Test duration {duration} minutes")
+            progressed_time_weighted = round(elapsed_time*(100/(int(duration)*60)))  # To calculate percentage of complettion of out of 100
+            progress_text = "Elapsed test duration " + str(elapsed_time) + " seconds"
+            progress_bar.progress(progressed_time_weighted, text=progress_text)
         else:
-            placeholder1.write(f"Total Test duration is {duration} minutes")
+            placeholder1.write(f"Result consolidation is in progress...")
 
     
-    #placeholder.button("OK", key=2, type ="primary")
+    placeholder1.write(f"Test executed for {duration} minutes")
+    progress_bar.empty()
     return status, results
 
 

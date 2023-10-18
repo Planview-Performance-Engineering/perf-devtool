@@ -13,9 +13,9 @@ def display_results(left, results_data, execution_id, config_id):
     else:
         left.error("Test did not get initiated properly")
 
-        if left.button("Delete the run " + execution_id, type="primary"):
-            helper.delete_result(config_id, execution_id)
-            st.experimental_rerun()
+    if left.button("Delete the run " + execution_id, type="primary"):
+        helper.delete_result(config_id, execution_id)
+        st.experimental_rerun()
 
 
 def get_result_data(config_ids_list, default_config_index, selected_menu):
