@@ -94,7 +94,7 @@ def verify_results(process,duration):
             placeholder1.write(f"Result consolidation is in progress...")
 
     
-    placeholder1.write(f"Test executed for {duration} minutes")
+    placeholder1.empty()
     progress_bar.empty()
     return status, results
 
