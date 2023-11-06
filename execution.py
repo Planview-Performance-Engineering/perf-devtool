@@ -106,7 +106,7 @@ def run_subprocess(config_id, duration, vus, run_name):
     run_name = run_name.replace(" ", "_")
 
     if not os.path.isdir(f"./data/resultLogs/{config_id}"):
-        os.mkdir(f"./data/resultLogs/{config_id}")
+        os.makedirs(f"./data/resultLogs/{config_id}")
 
     command = None
     if auth_type == "Bearer" and method == "GET":
