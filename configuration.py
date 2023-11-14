@@ -116,7 +116,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
     vus = right.text_input(":blue[No of Concurrent Users]", placeholder="Enter duration in minutes",
                            value=config_details["vus"], help=help_text)
 
-    verify_string = left.text_input(":blue[Verify String]", placeholder="Enter text to verify in response",
+    verify_string = left.text_input(":blue[Expected Response String]", placeholder="Enter text to verify in response",
                                     value=config_details["verifyString"] if 'verifyString' in config_details.keys() else "")
     left.caption("provide text which is available in response")
 
