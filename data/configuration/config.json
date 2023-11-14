@@ -8,7 +8,7 @@
     "requestHeaders": "{}",
     "payloadType": null,
     "payloadAsString": null,
-    "auth": "Bearer",
+    "auth": "Bearer Token/Session ID",
     "dsn": "",
     "username": "",
     "password": "",
