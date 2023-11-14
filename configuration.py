@@ -3,7 +3,7 @@ from utils import helper
 from streamlit_modal import Modal
 
 op_lst = ["GET", "POST"]
-auth_lst = ["Basic", "Bearer", "CustomAuth_ThroughHeader"]
+auth_lst = ["PortfoliosLogin", "AWLogin", "Bearer Token/Session ID", "CustomAuth_ThroughHeader"]
 menu_lst = ["Config", "Execution", "Results"]
 
 
@@ -27,7 +27,10 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
     user_name = ""
     password = ""
     token = ""
-
+    dsn = ""
+    aw_version = ""
+    aw_user_name = ""
+    aw_password = ""
     config_id = st.selectbox(":blue[Select Config Name]", config_ids_list,
                              index=default_config_index, key="config_ids_list")
 
@@ -77,22 +80,34 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
 
         payload_as_string = right.checkbox(":blue[Payload as String]", value=config_details["payloadAsString"])
 
-    auth_type = right.selectbox(":blue[Authorization]", auth_lst, index=auth_lst.index(config_details['auth']))
+    auth_type = right.selectbox(":blue[Authentication Type]", auth_lst, index=auth_lst.index(config_details['auth']))
 
-    if auth_type == "Basic":
+    if auth_type == "PortfoliosLogin":
         right.caption("Used for Portfolio service request. Use Portfolio dsn,username and password here")
         dsn = right.text_input(":blue[DSN]", placeholder="Enter DSN Name", value=config_details["dsn"])
         user_name = right.text_input(":blue[User Name]", placeholder="Enter User Name",
                                      value=config_details["username"])
         password = right.text_input(":blue[Password]", placeholder="Enter Password", value=config_details["password"])
-    elif auth_type == "Bearer":
-        token = right.text_input(":blue[Token]", placeholder="Enter token", value=config_details["token"])
+    elif auth_type == "Bearer Token/Session ID":
+        token = right.text_input(":blue[token]", placeholder="Enter token", value=config_details["token"])
+        right.caption("bearer <token> or Session <token>")
+    elif auth_type == "AWLogin":
+        aw_version = right.text_input(":blue[Version Number]", placeholder="Enter Version Number",
+                                      value=config_details["awVersion"] if 'awVersion' in config_details.keys()
+                                      else "")
+
+        aw_user_name = right.text_input(":blue[User Name]", placeholder="Enter User Name",
+                                        value=config_details["awUsername"] if 'awUsername' in config_details.keys()
+                                        else "")
+        aw_password = right.text_input(":blue[Password]", placeholder="Enter Password",
+                                       value=config_details["awPassword"] if 'awPassword' in config_details.keys()
+                                       else "")
 
     new_config_id = left.text_input(":blue[Config Name]", placeholder="Enter unique Name to save config details",
                                     value=config_id)
     left.caption("Provide unique config name for the test configuration")
 
-    new_config_id = new_config_id.replace(" ","_")
+    new_config_id = new_config_id.replace(" ", "_")
 
     help_text = "Test runs multiple iterations in parallel with virtual users (VUs). " \
                 "In general terms, more virtual users means more simulated traffic"
@@ -101,19 +116,40 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
     vus = right.text_input(":blue[No of Concurrent Users]", placeholder="Enter duration in minutes",
                            value=config_details["vus"], help=help_text)
 
-    def save_config():
+    verify_string = left.text_input(":blue[Verify String]", placeholder="Enter text to verify in response",
+                                    value=config_details["verifyString"] if 'verifyString' in config_details.keys() else "")
+    left.caption("provide text which is available in response")
 
-        helper.save_config(new_config_id, host, api_endpoint, operation, is_local_host,
-                           payload, request_headers, payload_type, payload_as_string, auth_type, dsn, user_name,
-                           password, token, duration, vus)
+    def save_config():
+        config_details = {
+            "hostname": host,
+            "endpoint": api_endpoint,
+            "method": operation,
+            "isLocalhost": is_local_host,
+            "payload": payload,
+            "requestHeaders": request_headers,
+            "payloadType": payload_type,
+            "payloadAsString": payload_as_string,
+            "auth": auth_type,
+            "dsn": dsn,
+            "username": user_name,
+            "password": password,
+            "token": token,
+            "duration": duration,
+            "vus": vus,
+            "verifyString": verify_string,
+            "awVersion": aw_version,
+            "awUsername": aw_user_name,
+            "awPassword": aw_password
+        }
+
+        helper.save_config(new_config_id, config_details)
         
     def display_popup(text):
         model = Modal(key="results-key",title=text)
         with model.container():
-            #st.write(text)
             if st.button("OK"):
                 st.experimental_rerun()
-
 
     button1_css = """
     <style>

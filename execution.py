@@ -109,17 +109,23 @@ def run_subprocess(config_id, duration, vus, run_name):
         os.makedirs(f"./data/resultLogs/{config_id}")
 
     command = None
-    if auth_type == "Bearer" and method == "GET":
-        command = f'k6 run ./testGetAPI.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
-    elif auth_type == "Bearer" and method == "POST":
-        command = f'k6 run ./testPostAPI.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
-    elif auth_type in ["Basic", "CustomAuth_ThroughHeader"] and method == "GET":
-        command = f"k6 run ./testGetRequest.js -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}"
-    elif auth_type in ["Basic", "CustomAuth_ThroughHeader"] and method == "POST":
-        command = f"k6 run ./testPostRequest.js -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}"
+
+    if method == "GET":
+        command = f'k6 run ./testGet.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
+    elif method == "POST":
+        command = f'k6 run ./testPost.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
+
+    # if auth_type == "Bearer" and method == "GET":
+    #     command = f'k6 run ./testGetAPI.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
+    # elif auth_type == "Bearer" and method == "POST":
+    #     command = f'k6 run ./testPostAPI.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
+    # elif auth_type in ["Basic", "CustomAuth_ThroughHeader"] and method == "GET":
+    #     command = f"k6 run ./testGetRequest.js -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}"
+    # elif auth_type in ["Basic", "CustomAuth_ThroughHeader"] and method == "POST":
+    #     command = f"k6 run ./testPostRequest.js -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}"
 
     process = subprocess.Popen(
-       "exec " + command,
+        command,
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,

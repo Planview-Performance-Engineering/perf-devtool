@@ -2,6 +2,7 @@ import http from 'k6/http';
 import { fail } from "k6";
 import { Rate, Trend } from "k6/metrics";
 import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.1/index.js';
+import { parseHTML } from 'k6/html';
 
 
 let passRate = new Rate(`RequestEndpointPassRate`)
@@ -11,6 +12,36 @@ let responseTime = new Trend(`RequestEndpointResponseTime`, true)
 let loginPassRate = new Rate(`LoginPassRate`)
 let loginRequestTimeoutRate = new Rate(`LoginRequestTimeoutRate`)
 let loginResponseTime = new Trend(`LoginResponseTime`, true)
+
+
+
+export function awLogin(host, versionNumber, username, password, requestTimeout = '1m') {
+    const LOGIN_URL = `${host}/${versionNumber}_Application/Pages/Service/Login.aspx?ReturnUrl=%2f${versionNumber}_Application%2f`
+
+    const payload = {
+        __VIEWSTATE: '',
+        txtLogin: username,
+        txtPassword: password,
+        lbtLogin: 'Log In',
+      }
+
+    const headers = {
+        "content-type": "application/x-www-form-urlencoded",
+    }
+
+    const params = {
+        headers: headers,
+        timeout: requestTimeout
+    }
+
+    const response = http.post(LOGIN_URL, payload, params);
+    const objMetrics = {
+        passRate: loginPassRate,
+        reqTimeoutRate: loginRequestTimeoutRate,
+        responseTimeRate: loginResponseTime
+    }
+    verifyPageLoadByTitle("Login", response, requestTimeout, "Cases - Clarizen.com", objMetrics, LOGIN_URL)
+}
 
 export function login(host, dsn, username, password, requestTimeout = '1m') {
     const LOGIN_URL = `${host}/planview/login/body.aspx?manual=y`
@@ -30,7 +61,11 @@ export function login(host, dsn, username, password, requestTimeout = '1m') {
         timeout: requestTimeout
     }
 
+    console.log('==================',JSON.stringify(payload), LOGIN_URL)
+
+
     const response = http.post(LOGIN_URL, payload, params);
+    // console.log('==================', response.body)
 
     const ADMIN_LOGIN_CERT = verifyLogin(response, username, requestTimeout)
     return ADMIN_LOGIN_CERT
@@ -154,8 +189,19 @@ function verifyLogin(response, username, requestTimeout) {
 }
 
 
-export function verifyResponseStatus(response, endPoint, apiAction, requestTimeout){
-        if (response.status == 200) {
+export function verifyResponseStatus(response, endPoint, apiAction, verifyString, requestTimeout){
+        if (response.status == 200 && verifyString) {
+            if (response.body.includes(verifyString)) {
+                passRate.add(true, { action: apiAction, endPoint: endPoint })
+                requestTimeoutRate.add(false, { action: apiAction, timeout: requestTimeout, endPoint: endPoint })
+                responseTime.add(response.timings.duration, { action: apiAction, endPoint: endPoint })
+            }
+            else {
+                passRate.add(false, { action: apiAction, endPoint: endPoint })
+                fail(`Verification filaed for ${endPoint} endpoint`)
+            }
+        }
+        else if (response.status == 200){
             passRate.add(true, { action: apiAction, endPoint: endPoint })
             requestTimeoutRate.add(false, { action: apiAction, timeout: requestTimeout, endPoint: endPoint })
             responseTime.add(response.timings.duration, { action: apiAction, endPoint: endPoint })
@@ -167,9 +213,10 @@ export function verifyResponseStatus(response, endPoint, apiAction, requestTimeo
         }
         else {
             passRate.add(false, { action: apiAction, endPoint: endPoint })
-            fail(`get ${endPoint} attributes API failed with, ${response.body}`)
+            fail(`${endPoint} endpoint failed with, ${response.body}`)
         }
 }
+
 
 export function getVUandITER() {
     let vu, iter
@@ -182,4 +229,34 @@ export function getVUandITER() {
         vu = __VU
     }
     return { vu, iter }
+}
+
+export function verifyPageLoadByTitle(action, response, requestTimeout, expectedPageTitle, objMetrics, reqUrl) {
+    const SECTION = __ENV['section']
+    let pageTitle = ''
+    let { vu, iter } = getVUandITER()
+
+
+    try {
+        let doc = parseHTML(response.body);
+        pageTitle = doc.find('title').text();
+        // console.log('+++++++++++++++++++++++++++++++++++++++++++++', pageTitle)
+    }
+    finally {
+        if (response.error.includes('request timeout')) {
+            objMetrics.passRate.add(false, { action: action, section: SECTION })
+            objMetrics.reqTimeoutRate.add(true, { action: action, timeout: requestTimeout, section: SECTION })
+            fail(`[VU: ${vu}  Iter: ${iter}] Request timeout exception occured while loading - ${expectedPageTitle}. Request URL: ${reqUrl}. Request Timeout at: ${requestTimeout}`)
+        }
+        else if (pageTitle.includes(expectedPageTitle)) {
+            objMetrics.passRate.add(true, { action: action, section: SECTION })
+            objMetrics.reqTimeoutRate.add(false, { action: action, timeout: requestTimeout, section: SECTION })
+            objMetrics.responseTimeRate.add(response.timings.duration, { action: action, section: SECTION })
+        }
+        else {
+            objMetrics.passRate.add(false, { action: action, section: SECTION })
+            objMetrics.reqTimeoutRate.add(false, { action: action, timeout: requestTimeout, section: SECTION })
+            fail(`[VU: ${vu}  Iter: ${iter}] Page with title ${expectedPageTitle} failed to load. Response: , ${response.body}. Request URL: ${reqUrl}`)
+        }
+    }
 }

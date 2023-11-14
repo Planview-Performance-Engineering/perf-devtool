@@ -109,27 +109,8 @@ def update_config(config_id, config_details):
         json.dump(config_json, jsonfile)
 
 
-def save_config(config_id, host, api_endpoint, operation, is_local_host, payload, request_headers, payload_type,
-                payload_as_string, auth_type, dsn, user_name, password, token, duration, vus):
-    config_id = config_id.replace(" ","_")
-    config_details = {
-        "hostname": host,
-        "endpoint": api_endpoint,
-        "method": operation,
-        "isLocalhost": is_local_host,
-        "payload": payload,
-        "requestHeaders": request_headers,
-        "payloadType": payload_type,
-        "payloadAsString": payload_as_string,
-        "auth": auth_type,
-        "dsn": dsn,
-        "username": user_name,
-        "password": password,
-        "token": token,
-        "duration": duration,
-        "vus": vus
-
-    }
+def save_config(config_id, config_details):
+    config_id = config_id.replace(" ", "_")
     update_config(config_id, config_details)
 
 
