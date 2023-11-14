@@ -18,7 +18,7 @@ const REQUEST_HEADERS = envData['requestHeaders']
 export default function main(){
     let headers = {
         "content-type": "application/json",
-        "Authorization": `bearer ${TOKEN}`,
+        "Authorization": `${TOKEN}`,
     }
     
     Object.assign(headers, JSON.parse(REQUEST_HEADERS))
