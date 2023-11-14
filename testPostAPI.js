@@ -22,7 +22,7 @@ const HEADERS = envData['requestHeaders']
 export default function main(){
     let headers = {
         "content-type": CONTENT_TYPE,
-        "Authorization": `bearer ${TOKEN}`,
+        "Authorization": `${TOKEN}`,
     }
     Object.assign(headers, JSON.parse(HEADERS))
     const params = {
