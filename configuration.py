@@ -2,7 +2,7 @@ import streamlit as st
 from utils import helper
 from streamlit_modal import Modal
 
-op_lst = ["GET", "POST"]
+op_lst = ["GET", "POST", "PATCH", "PUT"]
 auth_lst = ["PortfoliosLogin", "AWLogin", "Bearer Token/Session ID", "CustomAuth_ThroughHeader"]
 menu_lst = ["Config", "Execution", "Results"]
 
@@ -66,7 +66,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
         if not status:
             st.error("Please provide valid JSON")
 
-    if operation == "POST":
+    if operation in ["POST", "PATCH", "PUT"]:
         payload = left.text_area(":blue[Request Payload]",
                                  value=config_details["payload"] if config_details["payload"] else {}, height=10)
 

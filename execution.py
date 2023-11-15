@@ -114,6 +114,10 @@ def run_subprocess(config_id, duration, vus, run_name):
         command = f'k6 run ./testGet.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
     elif method == "POST":
         command = f'k6 run ./testPost.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
+    elif method == "PATCH":
+        command = f'k6 run ./testPatch.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
+    elif method == "PUT":
+        command = f'k6 run ./testPut.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
 
     # if auth_type == "Bearer" and method == "GET":
     #     command = f'k6 run ./testGetAPI.js  -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}'
@@ -125,7 +129,7 @@ def run_subprocess(config_id, duration, vus, run_name):
     #     command = f"k6 run ./testPostRequest.js -e configID={config_id} -e runName={run_name} --duration={duration}m --vus={vus}"
 
     process = subprocess.Popen(
-        command,
+        "exec " + command,
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
