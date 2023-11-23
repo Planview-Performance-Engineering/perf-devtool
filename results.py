@@ -124,7 +124,8 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
 
     compare_multiple = st.checkbox("Do you want to compare 2 different configs ?")
 
-    if compare_multiple:
+
+    if compare_multiple and len(config_ids_list) > 1 :
 
         column1, column2 = st.columns(2)
 
