@@ -260,3 +260,47 @@ export function verifyPageLoadByTitle(action, response, requestTimeout, expected
         }
     }
 }
+
+
+function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomString = '';
+  
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomString += characters.charAt(randomIndex);
+    }
+  
+    return randomString;
+  }
+
+function generateRandomNumber(length) {
+    if (length <= 0) {
+      throw new Error('Length must be greater than 0');
+    }
+  
+    const min = 10 ** (length - 1);
+    const max = 10 ** length - 1;
+  
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  
+export function updateObjectByValue(jsonObj) {
+    for (const key in jsonObj) {
+      if (jsonObj[key] && typeof jsonObj[key] === 'object') {
+
+        updateObjectByValue(jsonObj[key]);
+      } else if (jsonObj[key].startsWith("{{String")) {
+        const length = jsonObj[key].split('String(')[1].split(')}}')[0]
+        const newVal = generateRandomString(length)
+        jsonObj[key] = newVal;
+        
+      }else if (jsonObj[key].startsWith('{{Number')){
+        const length = jsonObj[key].split('Number(')[1].split(')}}')[0]
+        const newVal = generateRandomNumber(length)
+        jsonObj[key] = newVal;
+
+      }
+    }
+    return jsonObj
+  }

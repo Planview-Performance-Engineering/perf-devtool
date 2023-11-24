@@ -62,7 +62,8 @@ export default function main(){
             timeout : REQUEST_TIME_OUT
         }
 
-        const payload = PAYLOAD_AS_STRING ? JSON.stringify(REQUEST_PAYLOAD) : REQUEST_PAYLOAD
+        const UPDATED_PAYLOAD = commonFunctions.updateObjectByValue(JSON.parse(REQUEST_PAYLOAD))
+        const payload = PAYLOAD_AS_STRING ? JSON.stringify(UPDATED_PAYLOAD) : UPDATED_PAYLOAD
 
         const response = http.put(`${HOST}${REQUEST_URL}`, payload, params)
         commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'PATCHAPI', VERIFY_STRING, REQUEST_TIME_OUT)
