@@ -13,7 +13,7 @@ def display_results(left, results_data, execution_id, config_id):
     else:
         left.error("Test did not get initiated properly")
 
-    if left.button("Delete the run " + execution_id, type="primary"):
+    if left.button("Delete the run " + execution_id, type="primary",key=left):
         helper.delete_result(config_id, execution_id)
         st.experimental_rerun()
 
@@ -63,8 +63,9 @@ def compare_results_diff_configs(config_id1, config_id2):
     execution_context = []
 
     for result, config in zip(result_details, config_id):
+
         if result:
-            execution_id = position.selectbox(config, result, key=config)
+            execution_id = position.selectbox(config, result, key=position)
             test_results = helper.get_results(config, execution_id)
             display_results(position, test_results, execution_id, config)
 
@@ -122,6 +123,8 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
     else:
         default_value_index = 0
 
+    st.markdown(":blue_book:[wikipage](http://localhost:8501/wiki?config_id=default&menu=Config#result-page)")
+
     compare_multiple = st.checkbox("Do you want to compare 2 different configs ?")
 
 
@@ -134,8 +137,12 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
 
         config2 = column2.selectbox(":blue[Select second config Name]", config_ids_list, index=1,
                                     key="config_iconfig_ids_listds_list_1")
-        st.experimental_set_query_params(config_id1=config1, config_id2=config2, menu=selected_menu)
-        compare_results_diff_configs(config1, config2)
+        if (config1 != config2) :
+
+            st.experimental_set_query_params(config_id1=config1, config_id2=config2, menu=selected_menu)
+            compare_results_diff_configs(config1, config2)
+        else:
+            st.warning("Select 2 different configs")
 
     else:
 

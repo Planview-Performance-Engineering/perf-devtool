@@ -20,6 +20,8 @@ def get_run_params(config_ids_list, default_config_index, selected_menu):
     else:
         default_value_index = 0
 
+    st.markdown(":blue_book:[wikipage](http://localhost:8501/wiki?config_id=default&menu=Config#execution-page)")
+
     config_id = st.selectbox(":blue[Select Config Name]", config_ids_list, index=default_value_index,
                              key="config_iconfig_ids_listds_list")
 
