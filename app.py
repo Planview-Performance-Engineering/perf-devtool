@@ -11,6 +11,8 @@ st.set_page_config(page_title="PerfDevTool",
                    layout="wide",
                    initial_sidebar_state="collapsed")
 
+st.markdown("[wikipage](http://localhost:8501/wiki?config_id=default&menu=Config)")
+
 class MyApp:
 
     def __init__(self):
