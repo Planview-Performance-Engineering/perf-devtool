@@ -300,6 +300,19 @@ st.markdown(
 unsafe_allow_html=True
 )
 
+st.subheader("Setting expectations about the tool")
+
+st.markdown(
+"""
+- This tool is designed for only performance comparison of the pre and post code changes and 2 different versions of API/Web requests.
+- This is tool will not help in deciding Performance of API/Web request or deciding the capacity of the requests.
+- This tool designed to test single web/api request. Tool will not accommodate set of requests.
+- This tool will be using resources from local system. Network bandwidth, number of applications running in the docker will have impact on the results. Make sure the number of docker applications running and network bandwidth is identical if you are comparing two results. 
+""",
+unsafe_allow_html=True
+)
+
+
 
 
 
