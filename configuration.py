@@ -207,12 +207,12 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
     update_button = placeholder.button('Update', disabled=st.session_state.get('disabled'), key='custom-button-2')
 
     if update_button:
-        config_details['token'] = token
-        config_details['dsn'] = dsn
-        config_details['username'] = user_name
-        config_details['password'] = password
-        config_details['duration'] = duration
-        config_details['vus'] = vus
+        config_details['token'] = token.strip()
+        config_details['dsn'] = dsn.strip()
+        config_details['username'] = user_name.strip()
+        config_details['password'] = password.strip()
+        config_details['duration'] = duration.strip()
+        config_details['vus'] = vus.strip()
         config_details['auth'] = auth_type
         placeholder.button('Update', disabled=True)
 
