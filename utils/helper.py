@@ -1,5 +1,6 @@
 import json
 import os
+import shutil
 
 CONFIG__FILE_PATH = os.path.abspath((os.path.join(os.path.dirname(__file__), r'../data/configuration/config.json')))
 
@@ -120,6 +121,10 @@ def delete_config_details(config_id):
 
     with open(CONFIG__FILE_PATH, "w") as jsonfile:
         json.dump(config_file, jsonfile)
+
+    file_path_to_delete = os.path.abspath(
+        (os.path.join(os.path.dirname(__file__), fr'../data/resultLogs/{config_id}')))
+    shutil.rmtree(file_path_to_delete)
 
 
 def validate_json(json_data):
