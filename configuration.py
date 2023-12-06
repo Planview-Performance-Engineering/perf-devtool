@@ -123,8 +123,8 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
 
     def save_config():
         config_details = {
-            "hostname": host,
-            "endpoint": api_endpoint,
+            "hostname": host.strip(),
+            "endpoint": api_endpoint.strip(),
             "method": operation,
             "isLocalhost": is_local_host,
             "payload": payload,
@@ -132,16 +132,16 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
             "payloadType": payload_type,
             "payloadAsString": payload_as_string,
             "auth": auth_type,
-            "dsn": dsn,
-            "username": user_name,
-            "password": password,
-            "token": token,
-            "duration": duration,
-            "vus": vus,
-            "verifyString": verify_string,
-            "awVersion": aw_version,
-            "awUsername": aw_user_name,
-            "awPassword": aw_password
+            "dsn": dsn.strip(),
+            "username": user_name.strip(),
+            "password": password.strip(),
+            "token": token.strip(),
+            "duration": duration.strip(),
+            "vus": vus.strip(),
+            "verifyString": verify_string.strip(),
+            "awVersion": aw_version.strip(),
+            "awUsername": aw_user_name.strip(),
+            "awPassword": aw_password.strip()
         }
 
         helper.save_config(new_config_id, config_details)

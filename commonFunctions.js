@@ -290,12 +290,12 @@ export function updateObjectByValue(jsonObj) {
       if (jsonObj[key] && typeof jsonObj[key] === 'object') {
 
         updateObjectByValue(jsonObj[key]);
-      } else if (jsonObj[key].startsWith("{{String")) {
+    } else if (typeof jsonObj[key] === 'string' && jsonObj[key].startsWith("{{String(")) {
         const length = jsonObj[key].split('String(')[1].split(')}}')[0]
         const newVal = generateRandomString(length)
         jsonObj[key] = newVal;
         
-      }else if (jsonObj[key].startsWith('{{Number')){
+      }else if (typeof jsonObj[key] === 'number' && jsonObj[key].startsWith('{{Number')){
         const length = jsonObj[key].split('Number(')[1].split(')}}')[0]
         const newVal = generateRandomNumber(length)
         jsonObj[key] = newVal;

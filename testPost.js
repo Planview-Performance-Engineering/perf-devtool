@@ -61,9 +61,9 @@ export default function main(){
             headers: headers,
             timeout : REQUEST_TIME_OUT
         }
-        const UPDATED_PAYLOAD = commonFunctions.updateObjectByValue(JSON.parse(REQUEST_PAYLOAD))
+        const payload = JSON.stringify(commonFunctions.updateObjectByValue(JSON.parse(REQUEST_PAYLOAD)))
 
-        const payload = PAYLOAD_AS_STRING ? JSON.stringify(UPDATED_PAYLOAD) : UPDATED_PAYLOAD
+        // const payload = PAYLOAD_AS_STRING ? JSON.stringify(UPDATED_PAYLOAD) : UPDATED_PAYLOAD
 
         const response = http.post(`${HOST}${REQUEST_URL}`, payload, params)
         commonFunctions.verifyResponseStatus(response, REQUEST_URL, 'POSTAPI', VERIFY_STRING, REQUEST_TIME_OUT)
