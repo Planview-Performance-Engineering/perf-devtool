@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: wrapper
+  IMAGE_NAME: planview-performance-engineering/perf-devtool
   IMAGE_TAG: 0.0.${{ github.run_number }}
 
 jobs:
