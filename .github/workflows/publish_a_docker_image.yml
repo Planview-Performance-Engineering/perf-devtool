@@ -8,8 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: planview-performance-engineering/perf-devtool
-  #IMAGE_TAG : ${{ steps.branch-names.outputs.current_branch }}
-  #IMAGE_TAG: 0.0.${{ github.run_number }}
+  IMAGE_TAG: 0.0.${{ github.run_number }}
 
 jobs:
   build-and-push-image:
@@ -45,6 +44,5 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags:  ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest , ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.branch-names.outputs.current_branch }} 
-          #${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} # ${{ steps.meta.outputs.tags }}
+          tags:  ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest , ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} # ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
