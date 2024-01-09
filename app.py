@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
+import docker
 
 from utils import helper
 import configuration, execution, results
@@ -33,6 +34,27 @@ class MyApp:
 
         default_menu = query_params["menu"][0] if "menu" in query_params else None
         default_menu_index = menu_lst.index(default_menu) if default_menu else 0
+
+        col1,col2,col3 = st.columns(3)
+
+        st.markdown(":blue_book:[wikipage](http://localhost:8501/wiki?config_id=default&menu=Config#config-page)")
+
+        def get_image_version(image_name):
+            client = docker.from_env()
+
+            try:
+                image = client.images.get(image_name)
+                labels = image.labels
+                version = labels.get("org.opencontainers.image.version", "Not specified")
+                return version
+            except docker.errors.ImageNotFound:
+                print(f"Image '{image_name}' not found.")
+                return None
+        
+        image_name = 'ghcr.io/planview-performance-engineering/perf-devtool'
+        tags = get_image_version(image_name)
+
+        st.write("version : " + tags)
 
         selected_menu = option_menu(None, menu_lst, icons=['gear-fill', 'play-circle', "check2-circle"], key='mymenu',
                                     menu_icon="cast", default_index=default_menu_index, orientation="horizontal",
