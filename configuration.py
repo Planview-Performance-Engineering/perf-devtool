@@ -20,7 +20,6 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
     color:#ff0000;
     }
     </style>""", unsafe_allow_html=True)
-    st.markdown(":blue_book:[wikipage](http://localhost:8501/wiki?config_id=default&menu=Config#config-page)")
     payload = None
     payload_type = None
     payload_as_string = None
