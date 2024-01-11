@@ -123,8 +123,6 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
     else:
         default_value_index = 0
 
-    st.markdown(":blue_book:[wikipage](http://localhost:8501/wiki?config_id=default&menu=Config#result-page)")
-
     compare_multiple = st.checkbox("Do you want to compare 2 different configs ?")
 
 
