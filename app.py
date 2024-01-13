@@ -35,7 +35,7 @@ class MyApp:
         default_menu = query_params["menu"][0] if "menu" in query_params else None
         default_menu_index = menu_lst.index(default_menu) if default_menu else 0
 
-        st.markdown(":blue_book:[wikipage](http://localhost:8501/wiki?config_id=default&menu=Config#config-page)")
+        st.markdown(":blue_book:[wikipage](http://localhost:8501/wiki)")
 
         def get_image_version(image_name):
             client = docker.from_env()
