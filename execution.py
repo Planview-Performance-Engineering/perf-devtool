@@ -23,7 +23,7 @@ def get_run_params(config_ids_list, default_config_index, selected_menu):
     config_id = st.selectbox(":blue[Select Config Name]", config_ids_list, index=default_value_index,
                              key="config_iconfig_ids_listds_list")
 
-    st.experimental_set_query_params(config_id=config_id, menu=selected_menu)
+    st.query_params(config_id=config_id, menu=selected_menu)
     config_details = helper.get_config_details(config_id)
 
     duration = st.text_input(":blue[Duration]", value=config_details['duration'], disabled=True)
