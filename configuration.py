@@ -36,7 +36,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
 
     st.session_state.config_id_selected = config_id
 
-    st.query_params(config_id=config_id, menu=selected_menu)
+    st.experimental_set_query_params(config_id=config_id, menu=selected_menu)
 
     config_details = helper.get_config_details(config_id)
     left, right = st.columns(2)
@@ -191,7 +191,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
             st.error(f"Config with {new_config_id} can be updated with only new auth credentails. Save with new config name for updating other details.")
         else:
             save_config()
-            st.query_params(config_id=new_config_id, menu=selected_menu)
+            st.experimental_set_query_params(config_id=new_config_id, menu=selected_menu)
             display_popup(f"Saved as new config {new_config_id}")
             #st.experimental_rerun()
 
@@ -226,7 +226,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
         else:
             helper.delete_config_details(config_id)
             config_ids_list = helper.get_config_ids_lst()
-            st.query_params(config_id='default', menu=selected_menu)
+            st.experimental_set_query_params(config_id='default', menu=selected_menu)
             display_popup(f"Config {config_id} deleted")
 
             #st.experimental_rerun()
