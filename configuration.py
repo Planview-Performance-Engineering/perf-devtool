@@ -213,6 +213,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
         config_details['duration'] = duration.strip()
         config_details['vus'] = vus.strip()
         config_details['auth'] = auth_type
+        config_details['requestHeaders'] = request_headers
         placeholder.button('Update', disabled=True)
 
         helper.update_config(config_id, config_details)
