@@ -137,7 +137,9 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
                                     key="config_iconfig_ids_listds_list_1")
         if (config1 != config2) :
 
-            st.experimental_set_query_params(config_id1=config1, config_id2=config2, menu=selected_menu)
+            st.query_params["config_id1"] = config1
+            st.query_params["config_id2"] = config2
+            st.query_params["menu"] = selected_menu
             compare_results_diff_configs(config1, config2)
         else:
             st.warning("Select 2 different configs")
@@ -146,6 +148,7 @@ def get_result_data(config_ids_list, default_config_index, selected_menu):
 
         config_id = st.selectbox(":blue[Select Config Name]", config_ids_list, index=default_value_index,
                                  key="config_iconfig_ids_listds_list")
-        st.experimental_set_query_params(config_id=config_id, menu=selected_menu)
+        st.query_params["config_id"] = config_id
+        st.query_params["menu"] = selected_menu
 
         compare_results(config_id)

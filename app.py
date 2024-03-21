@@ -26,15 +26,13 @@ class MyApp:
 
     def run(self):
 
-        query_params = st.experimental_get_query_params()
-
         config_ids_list = helper.get_config_ids_lst()
-        default_config_id = query_params["config_id"][0] if "config_id" in query_params else None
+        default_config_id = st.query_params["config_id"] if "config_id" in st.query_params else None
         default_config_index = config_ids_list.index(default_config_id) if default_config_id else 0
 
-        default_menu = query_params["menu"][0] if "menu" in query_params else None
+        default_menu = st.query_params["menu"] if "menu" in st.query_params else None
         default_menu_index = menu_lst.index(default_menu) if default_menu else 0
-
+        
         st.markdown(":blue_book:[wikipage](http://localhost:8501/wiki)")
 
         def get_image_version(image_name):
