@@ -188,14 +188,18 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
     center_column.markdown(button3_css, unsafe_allow_html=True)
 
     if left_column.button("Save", key="custom-button-1"):
-        if new_config_id in config_ids_list:
-            st.error(f"Config with {new_config_id} can be updated with only new auth credentails. Save with new config name for updating other details.")
-        else:
-            save_config()
-            st.query_params["config_id"] = new_config_id
-            st.query_params["menu"] = selected_menu
-            display_popup(f"Saved as new config {new_config_id}")
-            #st.experimental_rerun()
+        # if new_config_id in config_ids_list:
+        #     st.error(f"Config with {new_config_id} can be updated with only new auth credentails. Save with new config name for updating other details.")
+        # else:
+        #     save_config()
+        #     st.query_params["config_id"] = new_config_id
+        #     st.query_params["menu"] = selected_menu
+        #     display_popup(f"Saved as new config {new_config_id}")
+        #     #st.experimental_rerun()
+        save_config()
+        st.query_params["config_id"] = new_config_id
+        st.query_params["menu"] = selected_menu
+        display_popup(f"Saved config {new_config_id}")
 
     placeholder = right_column.empty()
 
