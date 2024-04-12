@@ -97,6 +97,36 @@ def get_results(config_id, execution_id):
     return metric_data
 
 
+def get_results_for_multiple_requests(config_id, execution_id):
+    metric_data = {}
+
+    results_file_path = os.path.abspath(
+        (os.path.join(os.path.dirname(__file__), fr'../data/resultLogs/{config_id}/{execution_id}.json')))
+
+    # result_file = open('./resultlogs/' + config_id + '/' + execution_id + '.json')
+    result_file = open(results_file_path)
+
+    try:
+        result_json = json.load(result_file)
+        metrics = result_json['metrics']
+        for request in metrics:
+            if "RequestEndpointResponseTime" in request:
+                metric_data["95th percentile for" + request] = round(metrics[request]["values"]["p(95)"], 2)
+                metric_data["Average response time for" + request] = round(metrics[request]["values"]["avg"], 2)
+                metric_data["Maximum response time for" + request] = round(metrics[request]["values"]["max"], 2)
+                metric_data["Minimum response time for" + request] = round(metrics[request]["values"]["min"], 2)
+            elif "RequestEndpointRequestTimeoutRate" in request:
+                metric_data["Request timeout Rate for" + request] = metrics[request]["values"]["rate"] * 100
+                metric_data["Pass Rate for" + request] = metrics[request]["values"]["rate"] * 100
+
+        metric_data["Duration in min"] = result_json['TestSummary']['testData']['duration']
+        metric_data["Concurrent Users"] = result_json["TestSummary"]["testData"]["vus"]
+        metric_data['Iterations'] = result_json['metrics']['iterations']['values']['count']
+    except:
+        pass
+    return metric_data
+
+
 def update_config(config_id, config_details):
     config_dct = {
         config_id: config_details
