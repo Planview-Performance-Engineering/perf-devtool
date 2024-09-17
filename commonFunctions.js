@@ -295,7 +295,7 @@ export function updateObjectByValue(jsonObj) {
         const newVal = generateRandomString(length)
         jsonObj[key] = newVal;
         
-      }else if (typeof jsonObj[key] === 'number' && jsonObj[key].startsWith('{{Number')){
+      }else if (typeof jsonObj[key] === 'string' && jsonObj[key].startsWith('{{Number')){
         const length = jsonObj[key].split('Number(')[1].split(')}}')[0]
         const newVal = generateRandomNumber(length)
         jsonObj[key] = newVal;
