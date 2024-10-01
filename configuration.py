@@ -150,7 +150,7 @@ def add_config_details(config_ids_list, default_config_index, selected_menu):
         model = Modal(key="results-key",title=text)
         with model.container():
             if st.button("OK"):
-                st.experimental_rerun()
+                st.rerun()
 
     button1_css = """
     <style>

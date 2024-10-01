@@ -15,7 +15,7 @@ def display_results(left, results_data, execution_id, config_id):
 
     if left.button("Delete the run " + execution_id, type="primary",key=left):
         helper.delete_result(config_id, execution_id)
-        st.experimental_rerun()
+        st.rerun()
 
 
 def plot_graphs(execution1, testResult1, execution2, testResult2, position):

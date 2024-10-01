@@ -4,9 +4,16 @@ import shutil
 
 CONFIG__FILE_PATH = os.path.abspath((os.path.join(os.path.dirname(__file__), r'../data/configuration/config.json')))
 
+CONFIG__FILE_PATH1 = os.path.abspath((os.path.join(os.path.dirname(__file__), r'../data/configuration/config1.json')))
+
 
 def read_config():
     config_file = open(CONFIG__FILE_PATH)
+    config_json = json.load(config_file)
+    return config_json
+
+def read_config1():
+    config_file = open(CONFIG__FILE_PATH1)
     config_json = json.load(config_file)
     return config_json
 
@@ -19,6 +26,11 @@ def get_config_ids_lst():
 
 def get_config_details(config_id):
     config_json = read_config()
+    config_details = config_json[config_id]
+    return config_details
+
+def get_config_details1(config_id):
+    config_json = read_config1()
     config_details = config_json[config_id]
     return config_details
 
@@ -89,8 +101,10 @@ def get_results(config_id, execution_id):
             result_json["metrics"]["RequestEndpointRequestTimeoutRate"]["values"]["rate"] * 100
         metric_data["Pass Rate in Percentage"] = result_json["metrics"]["RequestEndpointPassRate"]["values"][
                                                      "rate"] * 100
-        metric_data["Duration in min"] = result_json['TestSummary']['testData']['duration']
-        metric_data["Concurrent Users"] = result_json["TestSummary"]["testData"]["vus"]
+        # metric_data["Duration in min"] = result_json['TestSummary']['testData']['duration']
+        # metric_data["Concurrent Users"] = result_json["TestSummary"]["testData"]["vus"]
+        metric_data["Duration in min"] = result_json['TestSummary']['TestDurationMin']
+        metric_data["Concurrent Users"] = result_json["TestSummary"]['VirtualUsers']
         metric_data['Iterations'] = result_json['metrics']['iterations']['values']['count']
     except:
         pass
@@ -106,24 +120,47 @@ def get_results_for_multiple_requests(config_id, execution_id):
     # result_file = open('./resultlogs/' + config_id + '/' + execution_id + '.json')
     result_file = open(results_file_path)
 
-    try:
-        result_json = json.load(result_file)
-        metrics = result_json['metrics']
-        for request in metrics:
-            if "RequestEndpointResponseTime" in request:
-                metric_data["95th percentile for" + request] = round(metrics[request]["values"]["p(95)"], 2)
-                metric_data["Average response time for" + request] = round(metrics[request]["values"]["avg"], 2)
-                metric_data["Maximum response time for" + request] = round(metrics[request]["values"]["max"], 2)
-                metric_data["Minimum response time for" + request] = round(metrics[request]["values"]["min"], 2)
-            elif "RequestEndpointRequestTimeoutRate" in request:
-                metric_data["Request timeout Rate for" + request] = metrics[request]["values"]["rate"] * 100
-                metric_data["Pass Rate for" + request] = metrics[request]["values"]["rate"] * 100
+    # try:
+    #     result_json = json.load(result_file)
+    #     metrics = result_json['metrics']
+    #     for request in metrics:
+    #         if "ResponseTime" in request:
+    #             print("Inside the try\\")
+    #             metric_data[request] = {"Percentile 95 response time in ms " : round(metrics[request]["values"]["max"], 2),\
+    #                                     "Average response time in ms " : round(metrics[request]["values"]["avg"], 2),\
+    #                                     "Maximum response time in ms " : round(metrics[request]["values"]["max"], 2),\
+    #                                     "Minimum response time for" : round(metrics[request]["values"]["min"], 2)}
+    #             # metric_data["Average response time for " + request] = round(metrics[request]["values"]["avg"], 2)
+    #             # metric_data["Maximum response time for " + request] = round(metrics[request]["values"]["max"], 2)
+    #             # metric_data["Minimum response time for " + request] = round(metrics[request]["values"]["min"], 2)
+    #         elif "TimeoutRate" in request:
+    #             metric_data[request]["Request timeout Rate "] =  metrics[request]["values"]["rate"] * 100
+    #             metric_data[request]["Pass Rate "] = metrics[request]["values"]["rate"] * 100
 
-        metric_data["Duration in min"] = result_json['TestSummary']['testData']['duration']
-        metric_data["Concurrent Users"] = result_json["TestSummary"]["testData"]["vus"]
-        metric_data['Iterations'] = result_json['metrics']['iterations']['values']['count']
-    except:
-        pass
+    #     metric_data["Duration in min"] = result_json['TestSummary']['TestDurationMin']
+    #     metric_data["Concurrent Users"] = result_json["TestSummary"]['VirtualUsers']
+    #     metric_data['Iterations'] = result_json['metrics']['iterations']['values']['count']
+    # except:
+    #     pass
+    result_json = json.load(result_file)
+    metrics = result_json['metrics']
+    for request in metrics:
+            if "ResponseTime" in request:
+                print("Inside the try\\")
+                metric_data[request] = {"Percentile 95 response time in ms " : round(metrics[request]["values"]["max"], 2),\
+                                        "Average response time in ms " : round(metrics[request]["values"]["avg"], 2),\
+                                        "Maximum response time in ms " : round(metrics[request]["values"]["max"], 2),\
+                                        "Minimum response time for" : round(metrics[request]["values"]["min"], 2)}
+                # metric_data["Average response time for " + request] = round(metrics[request]["values"]["avg"], 2)
+                # metric_data["Maximum response time for " + request] = round(metrics[request]["values"]["max"], 2)
+                # metric_data["Minimum response time for " + request] = round(metrics[request]["values"]["min"], 2)
+            elif "TimeoutRate" in request:
+                metric_data[request]["Request timeout Rate "] =  metrics[request]["values"]["rate"] * 100
+                metric_data[request]["Pass Rate "] = metrics[request]["values"]["rate"] * 100
+
+    metric_data["Duration in min"] = result_json['TestSummary']['TestDurationMin']
+    metric_data["Concurrent Users"] = result_json["TestSummary"]['VirtualUsers']
+    metric_data['Iterations'] = result_json['metrics']['iterations']['values']['count']
     return metric_data
 
 

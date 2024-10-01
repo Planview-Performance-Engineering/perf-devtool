@@ -1,0 +1,69 @@
+{
+  "default": {
+  "RequestData" : {
+            "Request_Token": {
+              "hostname": "https://perftestfr101.pvcloud.com",
+              "endpoint": "/polaris/public-api/v1/oauth/token",
+              "method": "POST",
+              "isLocalhost": false,
+              "payload": "{\"client_id\":\"SL1FOjXpVH2V03nBGqzHSMOaaXyU6_Qg6e2x9\",\"client_secret\":\"1818d9fb-7987-4e60-9527-762bc025b909\",\"grant_type\":\"client_credentials\"}",
+              "requestHeaders": "{}",
+              "payloadType": "{}",
+              "payloadAsString": false,
+              "verifyString": "access_token",
+              "left": "access_token\":\"",
+              "right": "\",",
+              "nameOfCapturedValue":"accessToken",
+              "sleepTime":"1"
+            },
+            "Request_GetWork": {
+              "hostname": "https://perftestfr101.pvcloud.com",
+              "endpoint": "/polaris/public-api/v1/work/3787",
+              "method": "GET",
+              "isLocalhost": false,
+              "payload": "{}",
+              "requestHeaders": "{\"Authorization\": `Bearer ${correlatedValue[\"accessToken\"]}`}",
+              "payloadType": "{}",
+              "payloadAsString": false,
+              "verifyString": "structureCode",
+              "left": "\"depth\":",
+              "right": ",",
+              "nameOfCapturedValue":"depth",
+              "sleepTime":"1"
+            },
+            "Request_Work_Attributes": {
+              "hostname": "https://perftestfr101.pvcloud.com",
+              "endpoint": "/polaris/public-api/v1/work/3787/attributes",
+              "method": "POST",
+              "isLocalhost": false,
+              "payload": "[\"AC_DUR\", \"AC_FINISH\"]",
+              "requestHeaders": "{\"Content-Type\": \"application/json\",\"Authorization\": `Bearer ${correlatedValue[\"accessToken\"]}`}",
+              "payloadType": "{}",
+              "payloadAsString": true,
+              "verifyString": "structureCode",
+              "left": "",
+              "right": "",
+              "nameOfCapturedValue":"",
+              "sleepTime":"1"
+            },
+            "Request_Patch_Project": {
+              "hostname": "https://perftestfr101.pvcloud.com",
+              "endpoint": "/polaris/public-api/v1/projects/3816",
+              "method": "PATCH",
+              "isLocalhost": false,
+              "payload": "{\"calendar\": {\"structureCode\": \"STANDARD\", \"description\": \"Standard\"}}",
+              "requestHeaders": "{\"Content-Type\": \"application/json\",\"Authorization\": `Bearer ${correlatedValue[\"accessToken\"]}`}",
+              "payloadType": "{}",
+              "payloadAsString": true,
+              "verifyString": "John Rogers - pm1",
+              "left": "",
+              "right": "",
+              "nameOfCapturedValue":"",
+              "sleepTime":"1"
+            }
+          },
+      "duration": "1",
+      "vus": "1",
+      "iterations_sleepTime" : "1"
+  }
+}

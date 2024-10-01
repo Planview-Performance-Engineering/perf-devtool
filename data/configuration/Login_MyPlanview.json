@@ -1,0 +1,65 @@
+{
+  "default": {
+  "RequestData" : {
+            "Request_Portfolio_Login": {
+              "hostname": "https://perftestfr101.pvcloud.com",
+              "endpoint": "/planview/login/body.aspx",
+              "method": "POST",
+              "isLocalhost": false,
+              "payload": "{\"DSN\":\"pttprod\",\"Username\":\"pvmaster\",\"UserPass\":\"11dNQXjnHN@?\"}",
+              "requestHeaders": "{\"Content-Type\":\"application/x-www-form-urlencoded\"}",
+              "payloadType": "{}",
+              "payloadAsString": false,
+              "verifyString": "X-CSRF-TOKEN",
+              "left":"",
+              "right":"",
+              "nameOfCapturedValue":""
+            },
+            "Request_Portfolio_MyPlanview": {
+              "hostname": "https://perftestfr101.pvcloud.com",
+              "endpoint": "/planview/MyPlanview/MyPlanview.aspx",
+              "method": "GET",
+              "isLocalhost": false,
+              "payload": "{}",
+              "requestHeaders": "{}",
+              "payloadType": "{}",
+              "payloadAsString": false,
+              "verifyString": "StructureCode",
+              "left": "\"Id\":\"STRUCTURED_",
+              "right": "\",",
+              "nameOfCapturedValue":"StructureCode"
+            },
+            "Request_Portfolio_GetVisualsForUser": {
+              "hostname": "https://perftestfr101.pvcloud.com",
+              "endpoint": "/planview/services/VisualServiceJson.svc/GetVisualsForUser?pt=HOMEVIEW",
+              "method": "POST",
+              "isLocalhost": false,
+              "payload": "{\"portletCodes\":[\"MY_CTC_203\",\"${correlatedValue[\"StructureCode\"]}\"]}",
+              "requestHeaders": "{\"Content-Type\": \"application/json\"}",
+              "payloadType": "{}",
+              "payloadAsString": true,
+              "verifyString": "Initiative Kanban Analysis",
+              "left":"",
+              "right":"",
+              "nameOfCapturedValue":""
+            },
+            "Request_Portfolio_GetListItemsForWork": {
+              "hostname": "https://perftestfr101.pvcloud.com",
+              "endpoint": "/planview/services/ListItemAttributeServiceJson.svc/GetListItemsForWork",
+              "method": "POST",
+              "isLocalhost": false,
+              "payload": "{\"projectCode\":\"16778\"}",
+              "requestHeaders": "{\"Content-Type\": \"application/json\"}",
+              "payloadType": "{}",
+              "payloadAsString": true,
+              "verifyString": "d",
+              "left":"",
+              "right":"",
+              "nameOfCapturedValue":""
+            }
+          },
+      "duration": "1",
+      "vus": "1",
+      "iteration_sleepTime" : "1000"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "default": {
+  "RequestData" : {
+          "Request_Portfolio_Login": {
+            "hostname": "https://perftestfr101.pvcloud.com",
+            "endpoint": "/planview/login/body.aspx",
+            "method": "POST",
+            "isLocalhost": false,
+            "payload": "{\"DSN\":\"pttprod\",\"Username\":\"pvmaster\",\"UserPass\":\"11dNQXjnHN@?\",\"referrer\":\"https://eu.phreaks.planviewlogindev.net/\"}",
+            "requestHeaders": "{\"Content-Type\":\"application/x-www-form-urlencoded\"}",
+            "payloadType": "{}",
+            "payloadAsString": false,
+            "verifyString": "X-CSRF-TOKEN",
+            "left":"",
+            "right":"",
+            "nameOfCapturedValue":"",
+            "sleepTime":"1"
+          }
+          },
+      "duration": "1",
+      "vus": "1",
+      "iterations_sleepTime" : "1"
+  }
+}

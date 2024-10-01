@@ -1,19 +1,23 @@
 {
-  "default": {
-    "hostname": "https://localhost",
-    "endpoint": "/polaris/public-api/work/attributes/available",
-    "method": "GET",
-    "isLocalhost": false,
-    "payload": null,
-    "requestHeaders": "{}",
-    "payloadType": null,
-    "payloadAsString": null,
-    "auth": "Bearer Token/Session ID",
-    "dsn": "",
-    "username": "",
-    "password": "",
-    "token": "",
-    "duration": "1",
-    "vus": "1"
-  }
+    "default": {
+        "hostname": "https://localhost",
+        "endpoint": "/polaris/public-api/work/attributes/available",
+        "method": "POST",
+        "isLocalhost": false,
+        "payload": "",
+        "requestHeaders": "{}",
+        "payloadType": "application/json",
+        "payloadAsString": false,
+        "auth": "Bearer Token/Session ID",
+        "dsn": "",
+        "username": "",
+        "password": "",
+        "token": "",
+        "duration": "1",
+        "vus": "1",
+        "verifyString": "",
+        "awVersion": "",
+        "awUsername": "",
+        "awPassword": ""
+    }
 }

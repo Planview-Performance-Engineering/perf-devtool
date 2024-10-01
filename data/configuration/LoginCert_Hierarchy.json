@@ -1,0 +1,36 @@
+{
+  "default": {
+  "RequestData" : {
+            "Request1": {
+              "hostname": "https://perftestfr101.pvcloud.com",
+              "endpoint": "/planview/services/LoginService.svc",
+              "method": "POST",
+              "isLocalhost": false,
+              "payload": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns=\"http://schemas.planview.com/PVE/Core/2008/05/20\">\n                <soapenv:Header/>\n                <soapenv:Body>\n                    <ns:Login>\n                        <!--Optional:-->\n                        <ns:datasource>dhsandbox2</ns:datasource>\n                        <!--Optional:-->\n                        <ns:userName>pvmaster</ns:userName>\n                        <!--Optional:-->\n                        <ns:password>11dNQXjnHN@?</ns:password>\n                    </ns:Login>\n                </soapenv:Body>\n                </soapenv:Envelope>",
+              "requestHeaders": "{\"SOAPAction\":\"http://schemas.planview.com/PVE/Core/2008/05/20/ILoginService/Login\",\"content-type\":\"text/xml;charset=utf-8\"}",
+              "payloadType": "text/xml;charset=utf-8",
+              "payloadAsString": true,
+              "verifyString": "LoginResult",
+              "left": "<LoginResult>",
+              "right": "</LoginResult>",
+              "nameOfCapturedValue":"LoginCert"
+            },
+            "Request2": {
+              "hostname": "https://perftestfr101.pvcloud.com",
+              "endpoint": "/planview/internal-api/projects/hierarchy",
+              "method": "GET",
+              "isLocalhost": false,
+              "payload": null,
+              "requestHeaders": "{\"cookie\": `LoginCert=${correlatedValue[\"LoginCert\"]}`}",
+              "payloadType": "",
+              "payloadAsString": false,
+              "verifyString": "StructureName",
+              "left": "\"Description\": \"",
+              "right": "\",",
+              "nameOfCapturedValue":"Description"
+            }
+          },
+      "duration": "1",
+      "vus": "1"
+  }
+}
